@@ -1,14 +1,16 @@
-﻿Bwl.MSBuilder
+﻿Bwl.VsTools
 ========================
 
+Small tools for Visual Studio.
 
-Igor Koshelev (igor@lifemotion.ru), 2013-2014.
+Igor Koshelev (igor@lifemotion.ru), 2013-2015.
 
+=== VS Build Tool ===
 Simple tool for run MSBuild for all solutions in current folder.
 
 Using:
-1. Put msbuilder.exe in your solution folder OR append your PATH variable with path to msbuilder.
-2. Run msbuilder.exe directly or from .cmd script.
+1. Put vs-build-all.exe in your solution folder OR append your PATH variable with path to vs-build-all.
+2. Run vs-build-all.exe directly or from .cmd script.
 
 Build order:
 
