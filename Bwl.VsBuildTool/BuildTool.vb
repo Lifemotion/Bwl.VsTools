@@ -37,26 +37,25 @@ Class BuildTask
     End Function
 End Class
 
-Module MsBuilder
-    Dim dir = IO.Directory.GetCurrentDirectory
+Module BuildTool
     Dim list As New List(Of BuildTask)
 
-    Function GetSolutionsWithOrderMarks(conf As String) As BuildTask()
+    Function GetSolutionsWithOrderMarks(path As String, conf As String) As BuildTask()
         Dim list As New List(Of BuildTask)
         Dim i = 1
         Dim sln As String()
         Dim flag = True
         Do
-            sln = IO.Directory.GetFiles(dir, "*_B" + i.ToString + "*.sln")
+            sln = IO.Directory.GetFiles(path, "*_B" + i.ToString + "*.sln")
             If sln.Length = 1 Then list.Add(New BuildTask(sln(0), conf))
             i += 1
         Loop While sln.Length = 1
         Return list.ToArray
     End Function
 
-    Function GetAllSolutions(conf As String) As BuildTask()
+    Function GetAllSolutions(path As String, conf As String) As BuildTask()
         Dim list As New List(Of BuildTask)
-        Dim sln = IO.Directory.GetFiles(dir, "*.sln")
+        Dim sln = IO.Directory.GetFiles(path, "*.sln")
         For Each sol In sln
             list.Add(New BuildTask(sol, conf))
         Next
@@ -64,8 +63,11 @@ Module MsBuilder
     End Function
 
     Sub AddSolutionsToBuildList(conf As String)
-        Dim tasks = GetSolutionsWithOrderMarks(conf)
-        If tasks.Length = 0 Then tasks = GetAllSolutions(conf)
+        Dim path = IO.Directory.GetCurrentDirectory
+        Dim tasks = GetSolutionsWithOrderMarks(path, conf)
+        If tasks.Length = 0 Then tasks = GetAllSolutions(path, conf)
+        If tasks.Length = 0 Then tasks = GetSolutionsWithOrderMarks(IO.Path.Combine(path, ".."), conf)
+        If tasks.Length = 0 Then tasks = GetAllSolutions(IO.Path.Combine(path, ".."), conf)
         list.AddRange(tasks)
     End Sub
 

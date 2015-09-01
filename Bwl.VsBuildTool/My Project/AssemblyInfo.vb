@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Проверьте значения атрибутов сборки
 
 <Assembly: AssemblyTitle("Bwl.MSBuilder")> 
-<Assembly: AssemblyDescription("4adb4d9 First commit.")>
+<Assembly: AssemblyDescription("0fe7c43 Added Vs-Build-Tool and Vs-Version-Tool")>
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("Bwl.MSBuilder")> 
 <Assembly: AssemblyCopyright("Copyright ©  2014")> 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' используя "*", как показано ниже:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.2015.0709.0510")>
-<Assembly: AssemblyFileVersion("1.2015.0709.0510")>
+<Assembly: AssemblyVersion("1.2015.0709.2311")>
+<Assembly: AssemblyFileVersion("1.2015.0709.2311")>

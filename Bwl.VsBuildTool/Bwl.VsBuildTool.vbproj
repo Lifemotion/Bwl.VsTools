@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9B5DF325-1A2F-4EB7-905A-2DA370AC605C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Bwl.MSBuilder.MsBuilder</StartupObject>
+    <StartupObject>Sub Main</StartupObject>
     <RootNamespace>Bwl.MSBuilder</RootNamespace>
     <AssemblyName>vs-build-all</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -66,7 +66,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MsBuilder.vb" />
+    <Compile Include="BuildTool.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
