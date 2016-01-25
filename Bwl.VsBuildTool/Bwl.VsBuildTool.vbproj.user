@@ -3,6 +3,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartArguments>
     </StartArguments>
-    <StartWorkingDirectory>C:\Users\Igor\Dropbox\Programming\NET\SingleProjects\Bwl.MSBuilder</StartWorkingDirectory>
+    <StartWorkingDirectory>C:\Users\iksof\Repositories\Bwl.VsTools</StartWorkingDirectory>
   </PropertyGroup>
 </Project>
