@@ -2,4 +2,4 @@ obj
 bin
 *.suo
 debug
-AssemblyInfo.*
+AssemblyInfo.vb

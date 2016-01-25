@@ -1,13 +1,8 @@
 ﻿Imports System.Windows.Forms
 
 Class BuildTask
-    Dim toolPaths As String() = {
-        "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.EXE",
-        "C:\Program Files\MSBuild\14.0\Bin\MSBuild.EXE",
-        "C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.EXE",
-        "C:\Program Files\MSBuild\12.0\Bin\MSBuild.EXE",
-        "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.EXE",
-        "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.EXE"}
+    Dim toolPath = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.EXE"
+
     Public Property ProjectFile As String
     Public Property ProjectDirectory As String
     Public Property ProjectName As String
@@ -25,21 +20,10 @@ Class BuildTask
         Success = False
     End Sub
 
-    Private Function FindTools() As String
-        For Each toolPath In toolPaths
-            If IO.File.Exists(toolPath) Then
-                Return toolPath
-            End If
-        Next
-        Console.BackgroundColor = ConsoleColor.Red
-        Console.WriteLine("Build tools not found!")
-        Throw New Exception("Build tools not found!")
-    End Function
-
     Public Function Build() As Boolean
         Dim prc As New Process()
         prc.StartInfo.WorkingDirectory = ProjectDirectory
-        prc.StartInfo.FileName = FindTools()
+        prc.StartInfo.FileName = toolPath
         prc.StartInfo.UseShellExecute = False
         prc.StartInfo.RedirectStandardOutput = True
         prc.StartInfo.Arguments = """" + ProjectFile + """ /p:Configuration=" + Configuration
