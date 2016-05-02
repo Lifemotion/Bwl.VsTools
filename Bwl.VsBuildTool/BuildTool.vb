@@ -69,28 +69,40 @@ Module BuildTool
         Return list.ToArray
     End Function
 
-    Function GetAllSolutions(path As String, conf As String) As BuildTask()
+    Function GetAllSolutions(path As String, conf As String, filters As String()) As BuildTask()
         Dim list As New List(Of BuildTask)
         Dim sln = IO.Directory.GetFiles(path, "*.sln")
         For Each sol In sln
-            list.Add(New BuildTask(sol, conf))
+            Dim fi = New IO.FileInfo(sol)
+            For Each flt In filters
+                If flt = "*" Then
+                    list.Add(New BuildTask(sol, conf))
+                ElseIf fi.Name.ToLower.Contains(flt.ToLower) Then
+                    list.Add(New BuildTask(sol, conf))
+                End If
+            Next
         Next
         Return list.ToArray
     End Function
 
-    Sub AddSolutionsToBuildList(conf As String)
+    Sub AddSolutionsToBuildList(conf As String, filters As String())
         Dim path = IO.Directory.GetCurrentDirectory
         Dim tasks = GetSolutionsWithOrderMarks(path, conf)
-        If tasks.Length = 0 Then tasks = GetAllSolutions(path, conf)
+        If tasks.Length = 0 Then tasks = GetAllSolutions(path, conf, filters)
         If tasks.Length = 0 Then tasks = GetSolutionsWithOrderMarks(IO.Path.Combine(path, ".."), conf)
-        If tasks.Length = 0 Then tasks = GetAllSolutions(IO.Path.Combine(path, ".."), conf)
+        If tasks.Length = 0 Then tasks = GetAllSolutions(IO.Path.Combine(path, ".."), conf, filters)
         list.AddRange(tasks)
     End Sub
 
-    Sub BuildAll()
-        AddSolutionsToBuildList("Debug")
-        AddSolutionsToBuildList("Release")
+    Sub BuildAll(filters As String())
+        For Each fi In filters
+            If fi.ToLower = "-debug" Then AddSolutionsToBuildList("Debug", filters)
+            If fi.ToLower = "-release" Then AddSolutionsToBuildList("Release", filters)
+        Next
+        Build()
+    End Sub
 
+    Sub Build()
         If list.Count = 0 Then
             Console.WriteLine("Nothing to build!")
         Else
@@ -119,7 +131,13 @@ Module BuildTool
     Sub Main()
         Console.WriteLine("Bwl VS Build Tool, " + My.Application.Info.Version.ToString)
         Console.WriteLine("")
-        BuildAll()
+        Dim cmd = Command()
+        If cmd > "" Then
+            Dim cmdParts = cmd.Split(" ")
+            BuildAll(cmdParts)
+        Else
+            Console.WriteLine("Using [-debug] [-release] (*|sln-file-mask)")
+        End If
     End Sub
 
 End Module
