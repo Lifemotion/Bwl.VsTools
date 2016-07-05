@@ -42,7 +42,7 @@ Class BuildTask
         prc.StartInfo.FileName = FindTools()
         prc.StartInfo.UseShellExecute = False
         prc.StartInfo.RedirectStandardOutput = True
-        prc.StartInfo.Arguments = """" + ProjectFile + """ /p:Configuration=" + Configuration
+        prc.StartInfo.Arguments = """" + ProjectFile + """ /p:Configuration=" + Configuration + AdditionalBuildOptions
         prc.Start()
         Do While prc.StandardOutput.EndOfStream = False
             Dim p = prc.StandardOutput.ReadLine
@@ -128,12 +128,17 @@ Module BuildTool
         Console.ForegroundColor = ConsoleColor.Gray
     End Sub
 
+    Public Property AdditionalBuildOptions As String = " "
+
     Sub Main()
         Console.WriteLine("Bwl VS Build Tool, " + My.Application.Info.Version.ToString)
         Console.WriteLine("")
         Dim cmd = Command()
         If cmd > "" Then
             Dim cmdParts = cmd.Split(" ")
+            For Each part In cmdParts
+                If part.Trim.ToLower = "-m" Then AdditionalBuildOptions += "-m "
+            Next
             BuildAll(cmdParts)
         Else
             Console.WriteLine("Using [-debug] [-release] (*|sln-file-mask)")
