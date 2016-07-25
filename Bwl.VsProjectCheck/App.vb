@@ -5,6 +5,7 @@ Module App
     Sub Main()
         Console.WriteLine("Bwl VS Project Check Tool, " + My.Application.Info.Version.ToString)
         Console.WriteLine()
+        Dim clr = Console.ForegroundColor
         Dim curdir = IO.Directory.GetCurrentDirectory
         Dim prjs = IO.Directory.GetFiles(curdir, "*.vbproj", IO.SearchOption.AllDirectories)
         Dim errs As Integer = 0
@@ -53,6 +54,7 @@ Module App
             Console.WriteLine("Press any key")
             Console.ReadLine()
         End If
+        Console.ForegroundColor = clr
     End Sub
 
 End Module
