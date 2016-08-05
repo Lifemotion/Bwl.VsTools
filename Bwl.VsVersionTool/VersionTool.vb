@@ -120,7 +120,25 @@
             prc.WaitForExit()
             Dim result = result1 + result2
             result = result.Replace(vbCr, "").Replace(vbLf, "")
-            Return result
+            Dim filtered As New System.Text.StringBuilder
+            For Each ch In result
+                If Char.IsLetterOrDigit(ch) Or Char.IsWhiteSpace(ch) Or
+                    ch = "." Or
+                    ch = "," Or
+                    ch = ";" Or
+                    ch = "#" Or
+                    ch = "!" Or
+                    ch = "%" Or
+                    ch = ":" Or
+                    ch = "?" Or
+                    ch = "&" Or
+                    ch = "-" Or
+                    ch = "+" Or
+                    ch = "(" Or
+                    ch = ")" Or
+                    ch = "*" Then filtered.Append(ch)
+            Next
+            Return filtered.ToString
         Catch ex As Exception
             Return ""
         End Try
