@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6B437E73-A4DD-408C-B21E-480352FD04F0}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Bwl.VsVersionTool.VersionTool</StartupObject>
+    <StartupObject>Bwl.VsVersionTool.App</StartupObject>
     <RootNamespace>Bwl.VsVersionTool</RootNamespace>
     <AssemblyName>vs-version-set</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -63,7 +63,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VersionTool.vb" />
+    <Compile Include="App.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -79,6 +79,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="VersionTool.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

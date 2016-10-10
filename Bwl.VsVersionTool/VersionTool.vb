@@ -1,8 +1,8 @@
-﻿Module VersionTool
-    Sub Main()
+﻿Public Class VersionTool
+
+    Public Shared Sub SetVersion(dir As String)
         Console.WriteLine("Bwl VS Version Tool, " + My.Application.Info.Version.ToString)
         Console.WriteLine("")
-        Dim dir = IO.Directory.GetCurrentDirectory
         Dim gitCommit = GetGitVersion(dir)
         Dim dateVersion = "1." + Now.ToString("yyyy") + "." + Now.ToString("MMdd") + "." + Now.ToString("HHmm")
         Console.WriteLine("Git commit: " + gitCommit)
@@ -31,7 +31,7 @@
         Next
     End Sub
 
-    Private Function ProcessLine(ByRef line As String, description As String, version As String) As Boolean
+    Private Shared Function ProcessLine(ByRef line As String, description As String, version As String) As Boolean
         If line.Length > 0 AndAlso line(0) = "<" Then
             If line.ToLower.Contains("<Assembly: AssemblyDescription(".ToLower) Then
                 line = "<Assembly: AssemblyDescription(""" + description + """)>"
@@ -65,7 +65,7 @@
         Return False
     End Function
 
-    Private Sub ProcessInfoFile(file As String, description As String, version As String)
+    Private Shared Sub ProcessInfoFile(file As String, description As String, version As String)
         Dim workingLines = IO.File.ReadAllLines(file, Text.Encoding.UTF8)
         Dim copyLines As String() = {}
         Try
@@ -103,7 +103,7 @@
     End Sub
 
 
-    Private Function GetGitVersion(dir As String) As String
+    Public Shared Function GetGitVersion(dir As String) As String
         Dim prc As New Process
         prc.StartInfo.CreateNoWindow = True
         prc.StartInfo.RedirectStandardOutput = True
@@ -143,4 +143,4 @@
             Return ""
         End Try
     End Function
-End Module
+End Class
