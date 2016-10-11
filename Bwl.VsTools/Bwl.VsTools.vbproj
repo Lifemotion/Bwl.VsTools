@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="App.vb" />
     <Compile Include="tools\CleanTool.vb" />
+    <Compile Include="tools\GitignoreTools.vb" />
     <Compile Include="VsToolsForm.vb">
       <SubType>Form</SubType>
     </Compile>

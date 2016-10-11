@@ -30,6 +30,9 @@ Partial Class VsToolsForm
         Me.gitClean = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.openGitIgnore = New System.Windows.Forms.Button()
+        Me.bAddStandardGittgnore = New System.Windows.Forms.Button()
+        Me.licenseFile = New System.Windows.Forms.Button()
+        Me.readmeFile = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'buildDebug
@@ -95,11 +98,41 @@ Partial Class VsToolsForm
         Me.openGitIgnore.Text = ".gitignore"
         Me.openGitIgnore.UseVisualStyleBackColor = True
         '
+        'bAddStandardGittgnore
+        '
+        Me.bAddStandardGittgnore.Location = New System.Drawing.Point(112, 120)
+        Me.bAddStandardGittgnore.Name = "bAddStandardGittgnore"
+        Me.bAddStandardGittgnore.Size = New System.Drawing.Size(94, 23)
+        Me.bAddStandardGittgnore.TabIndex = 7
+        Me.bAddStandardGittgnore.Text = "Add Standard"
+        Me.bAddStandardGittgnore.UseVisualStyleBackColor = True
+        '
+        'licenseFile
+        '
+        Me.licenseFile.Location = New System.Drawing.Point(12, 149)
+        Me.licenseFile.Name = "licenseFile"
+        Me.licenseFile.Size = New System.Drawing.Size(94, 23)
+        Me.licenseFile.TabIndex = 8
+        Me.licenseFile.Text = "LICENSE"
+        Me.licenseFile.UseVisualStyleBackColor = True
+        '
+        'readmeFile
+        '
+        Me.readmeFile.Location = New System.Drawing.Point(112, 149)
+        Me.readmeFile.Name = "readmeFile"
+        Me.readmeFile.Size = New System.Drawing.Size(94, 23)
+        Me.readmeFile.TabIndex = 9
+        Me.readmeFile.Text = "README"
+        Me.readmeFile.UseVisualStyleBackColor = True
+        '
         'VsToolsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(259, 237)
+        Me.ClientSize = New System.Drawing.Size(221, 181)
+        Me.Controls.Add(Me.readmeFile)
+        Me.Controls.Add(Me.licenseFile)
+        Me.Controls.Add(Me.bAddStandardGittgnore)
         Me.Controls.Add(Me.openGitIgnore)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.gitClean)
@@ -112,7 +145,7 @@ Partial Class VsToolsForm
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "VsToolsForm"
-        Me.Text = "Bwl Visual Studio Tools"
+        Me.Text = "Bwl VS.Tools"
         Me.ResumeLayout(False)
 
     End Sub
@@ -124,4 +157,7 @@ Partial Class VsToolsForm
     Friend WithEvents gitClean As Button
     Friend WithEvents Button1 As Button
     Friend WithEvents openGitIgnore As Button
+    Friend WithEvents bAddStandardGittgnore As Button
+    Friend WithEvents licenseFile As Button
+    Friend WithEvents readmeFile As Button
 End Class

@@ -5,7 +5,7 @@
         prc.StartInfo.RedirectStandardOutput = False
         prc.StartInfo.RedirectStandardError = False
         prc.StartInfo.FileName = "git"
-        prc.StartInfo.Arguments = "clean"
+        prc.StartInfo.Arguments = "clean -X -d -f"
         prc.StartInfo.WorkingDirectory = dir
         prc.StartInfo.UseShellExecute = False
         Try

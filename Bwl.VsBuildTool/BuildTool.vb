@@ -77,10 +77,12 @@ Public Class BuildTool
         For Each sol In sln
             Dim fi = New IO.FileInfo(sol)
             For Each flt In filters
-                If flt = "*" Then
-                    list.Add(New BuildTask(sol, conf))
-                ElseIf fi.Name.ToLower.Contains(flt.ToLower) Then
-                    list.Add(New BuildTask(sol, conf))
+                If flt > "" Then
+                    If flt = "*" Then
+                        list.Add(New BuildTask(sol, conf))
+                    ElseIf fi.Name.ToLower.Contains(flt.ToLower) Then
+                        list.Add(New BuildTask(sol, conf))
+                    End If
                 End If
             Next
         Next
