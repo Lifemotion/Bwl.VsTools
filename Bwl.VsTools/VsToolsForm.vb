@@ -50,4 +50,15 @@
     Private Sub readmeFile_Click(sender As Object, e As EventArgs) Handles readmeFile.Click
         Shell("notepad README", AppWinStyle.NormalFocus)
     End Sub
+
+    Private Sub renameProject_Click(sender As Object, e As EventArgs) Handles renameProject.Click
+        Dim oldProjectName = InputBox("Specify the name of a project which you want to rename:", "Old project name")
+        Dim newProjectName = InputBox("Specify the NEW name of a project:", "New project name")
+
+        If String.IsNullOrWhiteSpace(oldProjectName) OrElse String.IsNullOrWhiteSpace(newProjectName) Then
+            MessageBox.Show("You did not specified a project name. Project rename will be cancelled.")
+        Else
+            ProjectRenamer.ProcessFolder(_dir, "refs, docs, bin, obj, .git", oldProjectName, newProjectName, "ico, bmp, png, dll, exe")
+        End If
+    End Sub
 End Class
