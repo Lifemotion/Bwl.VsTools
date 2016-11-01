@@ -45,27 +45,20 @@ Public Class ProjectRenamer
         Dim res = source
         changed = False
         Dim lowerOld = oldWord.ToLower
-        Dim indices = new List(Of Integer)
-        indices.Add(-1)
+        Dim lastIndex = 0
         While (True)
-            Dim lastindex
-            If indices.Last < 0
-                lastindex = 0
-                Else 
-                lastindex = indices.Last()
-            End If
 
-            Dim i = res.ToLower.IndexOf(lowerOld, lastindex)
+            Dim i = res.ToLower.IndexOf(lowerOld, lastIndex, StringComparison.Ordinal)
             If i = -1 Then
                 Exit While
             End If
-
-            res = res.Remove(i, oldWord.Length)
-            res = res.Insert(i, newWord)
-            indices.Add(i+newWord.Length)
+            If Not String.Equals(res.Substring(i, newWord.Length), newWord) Then
+                res = res.Remove(i, oldWord.Length)
+                res = res.Insert(i, newWord)
+            End If
+            lastIndex = i + newWord.Length
             changed = True
         End While
-
         Return res
     End Function
 
