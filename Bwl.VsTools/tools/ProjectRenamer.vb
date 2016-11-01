@@ -12,6 +12,7 @@ Public Class ProjectRenamer
         Try
             Dim files = Directory.GetFiles(newDirName)
             For Each file In files
+                Console.WriteLine("Start processing file " + file)
                 Dim ext = IO.Path.GetExtension(file)
                 If Not String.IsNullOrWhiteSpace(ext) Then
                     If ignoredFileExtensions.ToLower.Contains(ext.Replace(".", "").ToLower) Then
@@ -44,13 +45,24 @@ Public Class ProjectRenamer
         Dim res = source
         changed = False
         Dim lowerOld = oldWord.ToLower
+        Dim indices = new List(Of Integer)
+        indices.Add(-1)
         While (True)
-            Dim i = res.ToLower.IndexOf(lowerOld)
+            Dim lastindex
+            If indices.Last < 0
+                lastindex = 0
+                Else 
+                lastindex = indices.Last()
+            End If
+
+            Dim i = res.ToLower.IndexOf(lowerOld, lastindex)
             If i = -1 Then
                 Exit While
             End If
+
             res = res.Remove(i, oldWord.Length)
             res = res.Insert(i, newWord)
+            indices.Add(i+newWord.Length)
             changed = True
         End While
 
