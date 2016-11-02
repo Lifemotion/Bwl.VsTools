@@ -52,7 +52,33 @@ Public Class ProjectRenamer
             If i = -1 Then
                 Exit While
             End If
-            If Not String.Equals(res.Substring(i, newWord.Length), newWord) Then
+
+            Dim allowRename As Boolean
+            If (oldWord.Length > newWord.Length) Then
+                Dim checkWord = If((i - 1 + oldWord.Length) < res.Length, res.Substring(i, oldWord.Length), "")
+                If Not String.Equals(checkWord, "") Then
+                    If String.Equals(checkWord, oldWord) Then
+                        allowRename = True
+                    Else
+                        allowRename = False
+                    End If
+                Else
+                    allowRename = False
+                End If
+            Else
+                Dim checkWord = If((i - 1 + newWord.Length) < res.Length, res.Substring(i, newWord.Length), "")
+                If Not String.Equals(checkWord, "") Then
+                    If String.Equals(checkWord, newWord) Then
+                        allowRename = False 
+                    Else
+                        allowRename = True
+                    End If
+                Else
+                    allowRename = True
+                End If
+            End If
+
+            If allowRename Then
                 res = res.Remove(i, oldWord.Length)
                 res = res.Insert(i, newWord)
             End If
