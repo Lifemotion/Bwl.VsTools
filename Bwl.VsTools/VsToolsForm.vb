@@ -58,7 +58,7 @@
         If String.IsNullOrWhiteSpace(oldProjectName) OrElse String.IsNullOrWhiteSpace(newProjectName) Then
             MessageBox.Show("You did not specified a project name. Project rename will be cancelled.")
         Else
-            ProjectRenamer.ProcessFolder(_dir, "refs, docs, bin, obj, .git", oldProjectName, newProjectName, "ico, bmp, png, dll, exe")
+            ProjectRenamer.ProcessFolder(_dir, "refs, docs, bin, obj, tools, .git", oldProjectName, newProjectName, "ico, bmp, png, dll, exe")
         End If
     End Sub
 End Class

@@ -2,18 +2,31 @@
 
 Public Class ProjectRenamer
 
+    Private Shared _initialDir = ""
+
     Public Shared Sub ProcessFolder(folder As String, ignoredFolders As String, oldProjectName As String, newProjectName As String, ignoredFileExtensions As String)
         Console.WriteLine("Start processing " + folder)
         Dim changed = False
-        Dim newDirName = RenameString(folder, oldProjectName, newProjectName)
-        If newDirName.ToLower <> folder.ToLower Then
-            Directory.Move(folder, newDirName)
-        End If
+
+        Console.WriteLine("Start renaming the initial folder...")
+        Dim dirName = folder
         Try
-            Dim files = Directory.GetFiles(newDirName)
+            Dim newDirName = RenameString(folder, oldProjectName, newProjectName)
+            If newDirName.ToLower <> folder.ToLower Then
+                Directory.Move(folder, newDirName)
+                dirName = newDirName
+            End If
+            Console.WriteLine("Finished renaming the initial folder.")
+        Catch ex As Exception
+            Console.WriteLine("Cannot rename initial folder. Error: " + ex.Message.ToString())
+        End Try
+        If String.IsNullOrWhiteSpace(_initialDir) Then _initialDir = dirName
+
+        Try
+            Dim files = Directory.GetFiles(dirName)
             For Each file In files
                 Console.WriteLine("Start processing file " + file)
-                Dim ext = IO.Path.GetExtension(file)
+                Dim ext = Path.GetExtension(file)
                 If Not String.IsNullOrWhiteSpace(ext) Then
                     If ignoredFileExtensions.ToLower.Contains(ext.Replace(".", "").ToLower) Then
                         Continue For
@@ -30,7 +43,7 @@ Public Class ProjectRenamer
                 Console.WriteLine("File processed " + file)
             Next
 
-            Dim dirs = Directory.GetDirectories(newDirName)
+            Dim dirs = Directory.GetDirectories(dirName)
             For Each subDir In dirs
                 If Not ignoredFolders.ToLower.Contains(Path.GetFileName(subDir).ToLower) Then
                     ProcessFolder(subDir, ignoredFolders, oldProjectName, newProjectName, ignoredFileExtensions)
@@ -42,7 +55,14 @@ Public Class ProjectRenamer
         Console.WriteLine("Finish processing " + folder)
     End Sub
     Private Shared Function RenameString(source As String, oldWord As String, newWord As String, Optional ByRef changed As Boolean = False) As String
+
         Dim res = source
+        Dim isPath = False
+        If res.StartsWith(_initialDir) Then
+            res = res.Remove(0, _initialDir.Length)
+            isPath = True
+        End If
+
         changed = False
         Dim lowerOld = oldWord.ToLower
         Dim lastIndex = 0
@@ -69,7 +89,7 @@ Public Class ProjectRenamer
                 Dim checkWord = If((i - 1 + newWord.Length) < res.Length, res.Substring(i, newWord.Length), "")
                 If Not String.Equals(checkWord, "") Then
                     If String.Equals(checkWord, newWord) Then
-                        allowRename = False 
+                        allowRename = False
                     Else
                         allowRename = True
                     End If
@@ -85,6 +105,10 @@ Public Class ProjectRenamer
             lastIndex = i + newWord.Length
             changed = True
         End While
+
+        If isPath Then
+            res = res.Insert(0, _initialDir)
+        End If
         Return res
     End Function
 
