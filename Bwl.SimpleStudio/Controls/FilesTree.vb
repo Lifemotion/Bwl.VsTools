@@ -1,5 +1,5 @@
 ﻿Public Class FilesTree
-    Private _itemsTree As SolutionItem
+    Private _itemsTree As RootSolutionItem
 
     Public Event FileSelected(node As TreeNode, repNode As SolutionItem)
     Public Event TreeRefreshed()
@@ -28,6 +28,15 @@
     Private Function AddTreeNodesRecursive(parentCollection As TreeNodeCollection, fileNode As SolutionItem, filter As String) As Boolean
         Dim myNode = parentCollection.Add(fileNode.FullPath, fileNode.Name)
         myNode.Tag = fileNode
+        AddHandler fileNode.UnsavedContentChanged, Sub()
+                                                       If fileNode.UnsavedContent Is Nothing And myNode.Text.EndsWith("*") Then
+                                                           myNode.Text = fileNode.Name
+                                                       End If
+                                                       If fileNode.UnsavedContent IsNot Nothing And myNode.Text.EndsWith("*") = False Then
+                                                           myNode.Text = fileNode.Name + " *"
+                                                       End If
+                                                   End Sub
+
         RefreshNodeState(myNode)
         Dim good As Boolean = False
         For Each child In fileNode.Childs
@@ -60,6 +69,24 @@
         RecreateNodes()
     End Sub
 
+    Public ReadOnly Property SolutionsList As SolutionItem()
+        Get
+            If _itemsTree.Extension = ".sln" Then
+                Return {_itemsTree}
+            Else
+                Throw New Exception
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property Root As RootSolutionItem
+        Get
+            Return _itemsTree
+        End Get
+    End Property
+
+
+
     Public Sub RefreshNodeState(node As TreeNode)
         Dim repNode As SolutionItem = node.Tag
         If repNode IsNot Nothing Then
@@ -69,6 +96,9 @@
                 If repNode.Extension = ".vb" Then index = 2
                 If repNode.Extension = ".cs" Then index = 2
             End If
+            If repNode.Extension = ".sln" Then index = 3
+            If repNode.Extension = ".vbproj" Then index = 3
+            If repNode.Extension = ".csproj" Then index = 3
             node.SelectedImageIndex = index
             node.ImageIndex = index
         End If
@@ -122,5 +152,16 @@
 
     Private Sub tbFilter_GotFocus(sender As Object, e As EventArgs) Handles tbFilter.GotFocus
         If tbFilter.Text = "<фильтр>" Then tbFilter.Text = ""
+    End Sub
+
+    Public Event FileOpenRequest(item As SolutionItem)
+
+    Private Sub tvFiles_DoubleClick(sender As Object, e As EventArgs) Handles tvFiles.DoubleClick
+        If tvFiles.SelectedNode IsNot Nothing AndAlso tvFiles.SelectedNode.Tag IsNot Nothing Then
+            Dim repNode As SolutionItem = tvFiles.SelectedNode.Tag
+            If repNode.IsDirectory = False Then
+                RaiseEvent FileOpenRequest(repNode)
+            End If
+        End If
     End Sub
 End Class

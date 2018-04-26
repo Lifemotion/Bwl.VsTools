@@ -66,8 +66,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildMessage.vb" />
+    <Compile Include="BuildTask.vb" />
     <Compile Include="BuildTool.vb" />
     <Compile Include="App.vb" />
+    <Compile Include="MSBuild.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

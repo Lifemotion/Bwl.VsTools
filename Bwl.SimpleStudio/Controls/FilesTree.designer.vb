@@ -49,9 +49,12 @@ Partial Class FilesTree
         '
         Me.ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
-        Me.ImageList1.Images.SetKeyName(0, "folder-2x.png")
-        Me.ImageList1.Images.SetKeyName(1, "file-2x.png")
-        Me.ImageList1.Images.SetKeyName(2, "code-2x.png")
+        Me.ImageList1.Images.SetKeyName(0, "folder.png")
+        Me.ImageList1.Images.SetKeyName(1, "text-x-generic.png")
+        Me.ImageList1.Images.SetKeyName(2, "text-x-script.png")
+        Me.ImageList1.Images.SetKeyName(3, "package-x-generic.png")
+        Me.ImageList1.Images.SetKeyName(4, "user-home.png")
+        Me.ImageList1.Images.SetKeyName(5, "image-x-generic.png")
         '
         'tbFilter
         '

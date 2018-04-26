@@ -24,19 +24,18 @@ Partial Class App
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(App))
         Me.FilesTree1 = New Bwl.SimpleStudio.FilesTree()
-        Me.mainMenu = New System.Windows.Forms.MenuStrip()
-        Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BuildToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.toolbar = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
+        Me.tsbOpenSolution = New System.Windows.Forms.ToolStripButton()
+        Me.tsbSave = New System.Windows.Forms.ToolStripButton()
+        Me.tsbSaveAll = New System.Windows.Forms.ToolStripButton()
+        Me.tsbBuildAll = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
+        Me.tabRun = New System.Windows.Forms.ToolStripButton()
+        Me.tsbStop = New System.Windows.Forms.ToolStripButton()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.ErrorsList1 = New Bwl.SimpleStudio.ErrorsList()
-        Me.FileEditor1 = New Bwl.SimpleStudio.FileEditor()
-        Me.mainMenu.SuspendLayout()
+        Me.FileEditor1 = New Bwl.SimpleStudio.FilesEditorCollection()
         Me.toolbar.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
@@ -46,41 +45,8 @@ Partial Class App
         Me.FilesTree1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FilesTree1.Location = New System.Drawing.Point(552, 3)
         Me.FilesTree1.Name = "FilesTree1"
-        Me.FilesTree1.Size = New System.Drawing.Size(229, 417)
+        Me.FilesTree1.Size = New System.Drawing.Size(229, 434)
         Me.FilesTree1.TabIndex = 0
-        '
-        'menu
-        '
-        Me.mainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.BuildToolStripMenuItem, Me.ToolsToolStripMenuItem})
-        Me.mainMenu.Location = New System.Drawing.Point(0, 0)
-        Me.mainMenu.Name = "menu"
-        Me.mainMenu.Size = New System.Drawing.Size(784, 24)
-        Me.mainMenu.TabIndex = 1
-        Me.mainMenu.Text = "MenuStrip1"
-        '
-        'FileToolStripMenuItem
-        '
-        Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
-        Me.FileToolStripMenuItem.Text = "File"
-        '
-        'EditToolStripMenuItem
-        '
-        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
-        Me.EditToolStripMenuItem.Text = "Edit"
-        '
-        'BuildToolStripMenuItem
-        '
-        Me.BuildToolStripMenuItem.Name = "BuildToolStripMenuItem"
-        Me.BuildToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
-        Me.BuildToolStripMenuItem.Text = "Build"
-        '
-        'ToolsToolStripMenuItem
-        '
-        Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(47, 20)
-        Me.ToolsToolStripMenuItem.Text = "Tools"
         '
         'StatusStrip1
         '
@@ -92,30 +58,65 @@ Partial Class App
         '
         'toolbar
         '
-        Me.toolbar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton1, Me.ToolStripButton2})
-        Me.toolbar.Location = New System.Drawing.Point(0, 24)
+        Me.toolbar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbOpenSolution, Me.tsbSave, Me.tsbSaveAll, Me.tsbBuildAll, Me.ToolStripComboBox1, Me.tabRun, Me.tsbStop})
+        Me.toolbar.Location = New System.Drawing.Point(0, 0)
         Me.toolbar.Name = "toolbar"
         Me.toolbar.Size = New System.Drawing.Size(784, 25)
         Me.toolbar.TabIndex = 3
         Me.toolbar.Text = "ToolStrip1"
         '
-        'ToolStripButton1
+        'tsbOpenSolution
         '
-        Me.ToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), System.Drawing.Image)
-        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton1.Text = "ToolStripButton1"
+        Me.tsbOpenSolution.Image = Global.Bwl.SimpleStudio.My.Resources.Resources.document_open
+        Me.tsbOpenSolution.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbOpenSolution.Name = "tsbOpenSolution"
+        Me.tsbOpenSolution.Size = New System.Drawing.Size(103, 22)
+        Me.tsbOpenSolution.Text = "Open Solution"
         '
-        'ToolStripButton2
+        'tsbSave
         '
-        Me.ToolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), System.Drawing.Image)
-        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton2.Name = "ToolStripButton2"
-        Me.ToolStripButton2.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton2.Text = "ToolStripButton2"
+        Me.tsbSave.Image = Global.Bwl.SimpleStudio.My.Resources.Resources.document_save
+        Me.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbSave.Name = "tsbSave"
+        Me.tsbSave.Size = New System.Drawing.Size(51, 22)
+        Me.tsbSave.Text = "Save"
+        '
+        'tsbSaveAll
+        '
+        Me.tsbSaveAll.Image = Global.Bwl.SimpleStudio.My.Resources.Resources.document_save_all
+        Me.tsbSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbSaveAll.Name = "tsbSaveAll"
+        Me.tsbSaveAll.Size = New System.Drawing.Size(68, 22)
+        Me.tsbSaveAll.Text = "Save All"
+        '
+        'tsbBuildAll
+        '
+        Me.tsbBuildAll.Image = Global.Bwl.SimpleStudio.My.Resources.Resources.emblem_system
+        Me.tsbBuildAll.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbBuildAll.Name = "tsbBuildAll"
+        Me.tsbBuildAll.Size = New System.Drawing.Size(71, 22)
+        Me.tsbBuildAll.Text = "Build All"
+        '
+        'ToolStripComboBox1
+        '
+        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
+        Me.ToolStripComboBox1.Size = New System.Drawing.Size(250, 25)
+        '
+        'tabRun
+        '
+        Me.tabRun.Image = Global.Bwl.SimpleStudio.My.Resources.Resources.media_playback_start
+        Me.tabRun.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tabRun.Name = "tabRun"
+        Me.tabRun.Size = New System.Drawing.Size(48, 22)
+        Me.tabRun.Text = "Run"
+        '
+        'tsbStop
+        '
+        Me.tsbStop.Image = Global.Bwl.SimpleStudio.My.Resources.Resources.media_playback_stop
+        Me.tsbStop.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbStop.Name = "tsbStop"
+        Me.tsbStop.Size = New System.Drawing.Size(51, 22)
+        Me.tsbStop.Text = "Stop"
         '
         'TableLayoutPanel1
         '
@@ -126,20 +127,24 @@ Partial Class App
         Me.TableLayoutPanel1.Controls.Add(Me.ErrorsList1, 0, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.FileEditor1, 0, 0)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 49)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 25)
+        Me.TableLayoutPanel1.Margin = New System.Windows.Forms.Padding(2)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 2
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.47708!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.52292!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(784, 592)
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(784, 616)
         Me.TableLayoutPanel1.TabIndex = 4
         '
         'ErrorsList1
         '
+        Me.ErrorsList1.AssociatedBuildTask = Nothing
+        Me.TableLayoutPanel1.SetColumnSpan(Me.ErrorsList1, 2)
         Me.ErrorsList1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ErrorsList1.Location = New System.Drawing.Point(3, 426)
+        Me.ErrorsList1.Location = New System.Drawing.Point(3, 443)
         Me.ErrorsList1.Name = "ErrorsList1"
-        Me.ErrorsList1.Size = New System.Drawing.Size(543, 163)
+        Me.ErrorsList1.Size = New System.Drawing.Size(778, 170)
         Me.ErrorsList1.TabIndex = 1
         '
         'FileEditor1
@@ -147,7 +152,7 @@ Partial Class App
         Me.FileEditor1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FileEditor1.Location = New System.Drawing.Point(3, 3)
         Me.FileEditor1.Name = "FileEditor1"
-        Me.FileEditor1.Size = New System.Drawing.Size(543, 417)
+        Me.FileEditor1.Size = New System.Drawing.Size(543, 434)
         Me.FileEditor1.TabIndex = 2
         '
         'App
@@ -158,12 +163,9 @@ Partial Class App
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.Controls.Add(Me.toolbar)
         Me.Controls.Add(Me.StatusStrip1)
-        Me.Controls.Add(Me.mainMenu)
-        Me.MainMenuStrip = Me.mainMenu
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "App"
         Me.Text = "Bwl.SimpleStudio"
-        Me.mainMenu.ResumeLayout(False)
-        Me.mainMenu.PerformLayout()
         Me.toolbar.ResumeLayout(False)
         Me.toolbar.PerformLayout()
         Me.TableLayoutPanel1.ResumeLayout(False)
@@ -173,16 +175,16 @@ Partial Class App
     End Sub
 
     Friend WithEvents FilesTree1 As FilesTree
-    Friend WithEvents mainMenu As MenuStrip
-    Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents EditToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BuildToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ToolsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents toolbar As ToolStrip
-    Friend WithEvents ToolStripButton1 As ToolStripButton
-    Friend WithEvents ToolStripButton2 As ToolStripButton
+    Friend WithEvents tsbSave As ToolStripButton
+    Friend WithEvents tsbSaveAll As ToolStripButton
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents ErrorsList1 As ErrorsList
-    Friend WithEvents FileEditor1 As FileEditor
+    Friend WithEvents FileEditor1 As FilesEditorCollection
+    Friend WithEvents tsbBuildAll As ToolStripButton
+    Friend WithEvents ToolStripComboBox1 As ToolStripComboBox
+    Friend WithEvents tabRun As ToolStripButton
+    Friend WithEvents tsbStop As ToolStripButton
+    Friend WithEvents tsbOpenSolution As ToolStripButton
 End Class

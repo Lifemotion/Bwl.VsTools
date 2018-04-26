@@ -1,13 +1,132 @@
-﻿Public Class SolutionItem
+﻿Public Class RootSolutionItem
+    Inherits SolutionItem
+
+    Public Property ExecutableTargets As New List(Of ExecutableTarget)
+
+    Public Sub New(path As String)
+        MyBase.New(path)
+    End Sub
+End Class
+
+
+Public Class SolutionItem
     Public ReadOnly Property FullPath As String
     Public ReadOnly Property Name As String
     Public ReadOnly Property Extension As String
     Public ReadOnly Property IsDirectory As Boolean
-    Public ReadOnly Property IsChanged As Boolean
     Public ReadOnly Property Childs As New List(Of SolutionItem)
 
+    Public Event UnsavedContentChanged(source As SolutionItem)
+
+    Private _unsavedContent As String
     Private _di As IO.DirectoryInfo
     Private _fi As IO.FileSystemInfo
+
+    Public Property UnsavedContent As String
+        Get
+            Return _unsavedContent
+        End Get
+        Set(value As String)
+            _unsavedContent = value
+            RaiseEvent UnsavedContentChanged(Me)
+        End Set
+    End Property
+
+    Public Sub Save()
+        If _unsavedContent IsNot Nothing Then
+            IO.File.WriteAllText(FullPath, _unsavedContent)
+            UnsavedContent = Nothing
+        End If
+    End Sub
+
+    Public Function FindUnsavedItems() As SolutionItem()
+        Dim list As New List(Of SolutionItem)
+        FindUnsavedItemsRecursive(list, Me)
+        Return list.ToArray
+    End Function
+
+    Private Sub FindUnsavedItemsRecursive(List As List(Of SolutionItem), item As SolutionItem)
+        If item.UnsavedContent IsNot Nothing Then List.Add(item)
+        For Each child In item.Childs
+            FindUnsavedItemsRecursive(List, child)
+        Next
+    End Sub
+
+    Public Sub SaveAll()
+        Dim unsaved = FindUnsavedItems()
+        For Each file In unsaved
+            file.Save()
+        Next
+    End Sub
+
+    Public Function SaveAllWithAsk() As DialogResult
+        Dim unsaved = FindUnsavedItems()
+        If unsaved.Length > 0 Then
+            Select Case MsgBox("There are unsaved files. Save all changes?", MsgBoxStyle.YesNoCancel)
+                Case MsgBoxResult.Cancel
+                    Return DialogResult.Cancel
+                Case MsgBoxResult.Yes
+                    Try
+                        For Each file In unsaved
+                            file.Save()
+                        Next
+                        Return DialogResult.OK
+                    Catch ex As Exception
+                        MsgBox("Save file error: " + Name + " " + ex.Message, MsgBoxStyle.Critical)
+                        Return DialogResult.Cancel
+                    End Try
+                Case MsgBoxResult.No
+                    Return DialogResult.OK
+                Case Else
+                    Return DialogResult.Cancel
+            End Select
+        Else
+            Return DialogResult.OK
+        End If
+    End Function
+
+    Public Function AskIfUnsaved() As DialogResult
+        If UnsavedContent IsNot Nothing Then
+            Dim result = MsgBox("File " + Name + " was changed. Save changes?", MsgBoxStyle.YesNoCancel)
+            Select Case result
+                Case MsgBoxResult.Yes
+                    Try
+                        Save()
+                        Return DialogResult.OK
+                    Catch ex As Exception
+                        MsgBox("Save file error: " + Name + " " + ex.Message, MsgBoxStyle.Critical)
+                        Return DialogResult.Cancel
+                    End Try
+                Case MsgBoxResult.No
+                    UnsavedContent = Nothing
+                    Return DialogResult.OK
+                Case MsgBoxResult.Cancel
+                    Return DialogResult.Cancel
+                Case Else
+                    Return DialogResult.Cancel
+            End Select
+        Else
+            Return DialogResult.OK
+        End If
+    End Function
+
+    Public Function FindItemByPath(path As String) As SolutionItem
+        Return FindItemByPathRecursive(Me, path)
+    End Function
+
+    Private Function FindItemByPathRecursive(item As SolutionItem, path As String) As SolutionItem
+        If item.FullPath = path Then Return item
+        For Each child In item.Childs
+            Dim result = FindItemByPathRecursive(child, path)
+            If result IsNot Nothing Then Return result
+        Next
+        Return Nothing
+    End Function
+
+    Public Function Load() As String
+        Dim text = IO.File.ReadAllText(FullPath)
+        Return text
+    End Function
 
     Public Sub New(path As String)
         If IO.Directory.Exists(path) Then
@@ -37,9 +156,9 @@
         Return _di.GetDirectories
     End Function
 
-    Private Shared Function LoadSolution(rootPath As String) As SolutionItem
+    Private Shared Function LoadSolution(rootPath As String) As RootSolutionItem
         'path is sln
-        Dim root As New SolutionItem(rootPath)
+        Dim root As New RootSolutionItem(rootPath)
         Dim rootLines = IO.File.ReadAllLines(root.FullPath)
         For Each line In rootLines
             If line.StartsWith("Project(""") Then
@@ -53,6 +172,9 @@
                         Dim xmldoc As New Xml.XmlDocument
                         Dim fileList As New List(Of String)
                         xmldoc.Load(prjFile)
+                        Dim isExecutable = False
+                        Dim assemblyName As String = ""
+                        Dim outputPaths As New List(Of String)
                         For Each group As Xml.XmlNode In xmldoc.DocumentElement.ChildNodes
                             If group.Name = "ItemGroup" Then
                                 For Each item As Xml.XmlNode In group.ChildNodes
@@ -66,8 +188,31 @@
                                     End If
                                 Next
                             End If
+                            If group.Name = "PropertyGroup" Then
+                                For Each item As Xml.XmlNode In group.ChildNodes
+                                    If item.Name = "OutputType" AndAlso item.InnerText = "WinExe" Then
+                                        isExecutable = True
+                                    End If
+                                    If item.Name = "AssemblyName" Then
+                                        assemblyName = item.InnerText
+                                    End If
+                                    If item.Name = "OutputPath" Then
+                                        outputPaths.Add(item.InnerText)
+                                    End If
+                                Next
+                            End If
                         Next
                         ProcessDirectory(prjFolder, prj, fileList)
+                        If isExecutable Then
+                            For Each op In outputPaths
+                                Dim target As New ExecutableTarget
+                                target.ProjectItem = prj
+                                target.RelativePath = IO.Path.Combine(op, assemblyName + ".exe")
+                                target.Configuration = ""
+                                target.FullPath = IO.Path.Combine(prjFolder, target.RelativePath)
+                                root.ExecutableTargets.Add(target)
+                            Next
+                        End If
                     End If
                 End If
             End If
@@ -102,7 +247,7 @@
         If IsDirectory Then
             Return "[" + Name + "]"
         Else
-            Return If(IsChanged, "* ", "") + Name
+            Return If(UnsavedContent IsNot Nothing, "* ", "") + Name
         End If
     End Function
 End Class

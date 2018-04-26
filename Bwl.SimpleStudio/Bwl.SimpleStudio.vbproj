@@ -11,7 +11,8 @@
     <AssemblyName>Bwl.SimpleStudio</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -19,18 +20,20 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\debug\App\bin\</OutputPath>
-    <DocumentationFile>Bwl.SimpleStudio.xml</DocumentationFile>
+    <OutputPath>..\debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>..\release\App\bin\</OutputPath>
-    <DocumentationFile>Bwl.SimpleStudio.xml</DocumentationFile>
+    <OutputPath>..\release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -44,6 +47,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Windows defender 3D.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -66,6 +72,15 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Bwl.VsBuildTool\BuildMessage.vb">
+      <Link>BuildTools\BuildMessage.vb</Link>
+    </Compile>
+    <Compile Include="..\Bwl.VsBuildTool\BuildTask.vb">
+      <Link>BuildTools\BuildTask.vb</Link>
+    </Compile>
+    <Compile Include="..\Bwl.VsBuildTool\MSBuild.vb">
+      <Link>BuildTools\MSBuild.vb</Link>
+    </Compile>
     <Compile Include="App.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -79,10 +94,17 @@
     <Compile Include="Controls\ErrorsList.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\FileEditor.Designer.vb">
-      <DependentUpon>FileEditor.vb</DependentUpon>
+    <Compile Include="Controls\ExecutableTarget.vb" />
+    <Compile Include="Controls\FilesEditor.Designer.vb">
+      <DependentUpon>FilesEditor.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FileEditor.vb">
+    <Compile Include="Controls\FilesEditor.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FilesEditorCollection.Designer.vb">
+      <DependentUpon>FilesEditorCollection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FilesEditorCollection.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SolutionItem.vb" />
@@ -116,8 +138,11 @@
     <EmbeddedResource Include="Controls\ErrorsList.resx">
       <DependentUpon>ErrorsList.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\FileEditor.resx">
-      <DependentUpon>FileEditor.vb</DependentUpon>
+    <EmbeddedResource Include="Controls\FilesEditor.resx">
+      <DependentUpon>FilesEditor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FilesEditorCollection.resx">
+      <DependentUpon>FilesEditorCollection.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -139,6 +164,52 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\urgent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favorite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\debug.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document-save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document-save-all.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\go-next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\go-previous.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\go-up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\go-down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\media-playback-start.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\media-playback-stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\emblem-system.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document-open.png" />
+    <Content Include="Windows defender 3D.ico" />
   </ItemGroup>
   <!--PRJREFS-->
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
