@@ -10,6 +10,7 @@
     End Sub
 
     Public Sub OpenPath(path As String)
+        If path = "" Then Return
         If FilesTree1.Root Is Nothing OrElse FilesTree1.Root.SaveAllWithAsk = DialogResult.OK Then
             FileEditor1.CloseAllTabPages()
             ErrorsList1.AssociatedBuildTask = Nothing
