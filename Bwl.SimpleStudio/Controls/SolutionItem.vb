@@ -6,8 +6,17 @@
     Public Sub New(path As String)
         MyBase.New(path)
     End Sub
-End Class
 
+    Public ReadOnly Property SolutionsList As SolutionItem()
+        Get
+            If Extension = ".sln" Then
+                Return {Me}
+            Else
+                Throw New Exception
+            End If
+        End Get
+    End Property
+End Class
 
 Public Class SolutionItem
     Public ReadOnly Property FullPath As String
@@ -127,6 +136,8 @@ Public Class SolutionItem
         Dim text = IO.File.ReadAllText(FullPath)
         Return text
     End Function
+
+
 
     Public Sub New(path As String)
         If IO.Directory.Exists(path) Then

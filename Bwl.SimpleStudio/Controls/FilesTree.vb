@@ -69,15 +69,7 @@
         RecreateNodes()
     End Sub
 
-    Public ReadOnly Property SolutionsList As SolutionItem()
-        Get
-            If _itemsTree.Extension = ".sln" Then
-                Return {_itemsTree}
-            Else
-                Throw New Exception
-            End If
-        End Get
-    End Property
+
 
     Public ReadOnly Property Root As RootSolutionItem
         Get

@@ -53,7 +53,7 @@ Public Class BuildTask
         prc.StartInfo.RedirectStandardOutput = True
         prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
         prc.StartInfo.StandardOutputEncoding = System.Text.Encoding.GetEncoding(1251)
-        'prc.StartInfo.StandardOutputEncoding = System.Text.Encoding.GetEncoding(850)
+        prc.StartInfo.StandardOutputEncoding = System.Text.Encoding.GetEncoding(866)
         prc.StartInfo.Arguments = """" + ProjectFile + """ /verbosity:m" +
             " /p:Configuration=" + Configuration +
             additionalOptions +

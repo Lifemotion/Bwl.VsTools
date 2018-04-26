@@ -45,6 +45,8 @@ Partial Class App
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BuildRunToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BuildAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DebugToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DebugToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.RunSelectedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StopToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolbar.SuspendLayout()
@@ -177,7 +179,7 @@ Partial Class App
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.BuildRunToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.BuildRunToolStripMenuItem, Me.DebugToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(953, 24)
@@ -223,10 +225,10 @@ Partial Class App
         '
         'BuildRunToolStripMenuItem
         '
-        Me.BuildRunToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BuildAllToolStripMenuItem, Me.RunSelectedToolStripMenuItem, Me.StopToolStripMenuItem})
+        Me.BuildRunToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BuildAllToolStripMenuItem})
         Me.BuildRunToolStripMenuItem.Name = "BuildRunToolStripMenuItem"
-        Me.BuildRunToolStripMenuItem.Size = New System.Drawing.Size(83, 20)
-        Me.BuildRunToolStripMenuItem.Text = "Build && Run"
+        Me.BuildRunToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.BuildRunToolStripMenuItem.Text = "Build"
         '
         'BuildAllToolStripMenuItem
         '
@@ -236,18 +238,32 @@ Partial Class App
         Me.BuildAllToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.BuildAllToolStripMenuItem.Text = "Build All"
         '
+        'DebugToolStripMenuItem
+        '
+        Me.DebugToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugToolStripMenuItem1, Me.RunSelectedToolStripMenuItem, Me.StopToolStripMenuItem})
+        Me.DebugToolStripMenuItem.Name = "DebugToolStripMenuItem"
+        Me.DebugToolStripMenuItem.Size = New System.Drawing.Size(54, 20)
+        Me.DebugToolStripMenuItem.Text = "Debug"
+        '
+        'DebugToolStripMenuItem1
+        '
+        Me.DebugToolStripMenuItem1.Name = "DebugToolStripMenuItem1"
+        Me.DebugToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.DebugToolStripMenuItem1.Size = New System.Drawing.Size(188, 22)
+        Me.DebugToolStripMenuItem1.Text = "Debug"
+        '
         'RunSelectedToolStripMenuItem
         '
         Me.RunSelectedToolStripMenuItem.Name = "RunSelectedToolStripMenuItem"
-        Me.RunSelectedToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.RunSelectedToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.RunSelectedToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F5), System.Windows.Forms.Keys)
+        Me.RunSelectedToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
         Me.RunSelectedToolStripMenuItem.Text = "Run Selected"
         '
         'StopToolStripMenuItem
         '
         Me.StopToolStripMenuItem.Name = "StopToolStripMenuItem"
         Me.StopToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.F5), System.Windows.Forms.Keys)
-        Me.StopToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.StopToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
         Me.StopToolStripMenuItem.Text = "Stop"
         '
         'App
@@ -296,6 +312,8 @@ Partial Class App
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BuildRunToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BuildAllToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DebugToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DebugToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents RunSelectedToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StopToolStripMenuItem As ToolStripMenuItem
 End Class

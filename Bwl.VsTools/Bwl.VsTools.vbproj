@@ -73,8 +73,17 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Bwl.VsBuildTool\BuildMessage.vb">
+      <Link>tools\BuildMessage.vb</Link>
+    </Compile>
+    <Compile Include="..\Bwl.VsBuildTool\BuildTask.vb">
+      <Link>tools\BuildTask.vb</Link>
+    </Compile>
     <Compile Include="..\Bwl.VsBuildTool\BuildTool.vb">
       <Link>tools\BuildTool.vb</Link>
+    </Compile>
+    <Compile Include="..\Bwl.VsBuildTool\MSBuild.vb">
+      <Link>tools\MSBuild.vb</Link>
     </Compile>
     <Compile Include="..\Bwl.VsProjectCheck\ProjectCheck.vb">
       <Link>tools\ProjectCheck.vb</Link>

@@ -64,6 +64,9 @@ Public Class BuildTool
         Else
             Dim success = 0
             For Each task In list
+                AddHandler task.Logger, Sub(type As String, msg As String)
+                                            Console.WriteLine(msg)
+                                        End Sub
                 If task.Build(AdditionalBuildOptions) Then success += 1
             Next
             Console.WriteLine()

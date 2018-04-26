@@ -49,7 +49,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Windows defender 3D.ico</ApplicationIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -88,6 +88,7 @@
       <DependentUpon>App.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Builder.vb" />
     <Compile Include="Controls\ErrorsList.Designer.vb">
       <DependentUpon>ErrorsList.vb</DependentUpon>
     </Compile>
@@ -130,6 +131,7 @@
     <Compile Include="Controls\FilesTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="RunnerDebugger.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.resx">
@@ -209,7 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\document-open.png" />
-    <Content Include="Windows defender 3D.ico" />
+    <Content Include="icon.ico" />
   </ItemGroup>
   <!--PRJREFS-->
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

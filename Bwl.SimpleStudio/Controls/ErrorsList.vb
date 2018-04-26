@@ -17,6 +17,15 @@
                 AddHandler _buildTask.BuildStarted, AddressOf BuildStartedHandler
                 AddHandler _buildTask.BuildFinished, AddressOf BuildFinishedHandler
             End If
+
+            If _buildTask Is Nothing Then
+                DataGridView1.Rows.Clear()
+                _rowMsgs.Clear()
+                _buildTask = Nothing
+                cbErrors.Text = "Errors"
+                cbWarnings.Text = "Warnings"
+                cbOther.Text = "Other"
+            End If
         End Set
     End Property
 
