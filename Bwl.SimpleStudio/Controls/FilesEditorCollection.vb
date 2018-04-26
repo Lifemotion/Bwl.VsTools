@@ -40,6 +40,12 @@ Public Class FilesEditorCollection
         End If
     End Sub
 
+    Public Sub CloseAllTabPages()
+        For Each tp In TabControl1.TabPages
+            CloseTabPage(tp)
+        Next
+    End Sub
+
     Public Sub CloseTabPage(tp As TabPage)
         Dim solItem As SolutionItem = tp.Tag
         If solItem.AskIfUnsaved = DialogResult.OK Then

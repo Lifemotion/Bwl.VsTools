@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Проверьте значения атрибутов сборки
 
 <Assembly: AssemblyTitle("Bwl.SimpleStudio")>
-<Assembly: AssemblyDescription("46f4b68 Минимально рабочая министудия.")>
+<Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("Bwl.SimpleStudio")>
-<Assembly: AssemblyCopyright("Copyright ©  2016")>
+<Assembly: AssemblyCopyright("Copyright ©  2018")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' используя "*", как показано ниже:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.2018.0426.1451")>
-<Assembly: AssemblyFileVersion("1.2018.0426.1451")>
+<Assembly: AssemblyVersion("1.0")>
+<Assembly: AssemblyFileVersion("1.0")>

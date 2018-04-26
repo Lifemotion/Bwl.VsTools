@@ -174,7 +174,7 @@ Public Class SolutionItem
                         xmldoc.Load(prjFile)
                         Dim isExecutable = False
                         Dim assemblyName As String = ""
-                        Dim outputPaths As New List(Of String)
+                        Dim temporaryTargets As New List(Of ExecutableTarget)
                         For Each group As Xml.XmlNode In xmldoc.DocumentElement.ChildNodes
                             If group.Name = "ItemGroup" Then
                                 For Each item As Xml.XmlNode In group.ChildNodes
@@ -189,6 +189,11 @@ Public Class SolutionItem
                                 Next
                             End If
                             If group.Name = "PropertyGroup" Then
+                                Dim condition = ""
+                                For Each attr As Xml.XmlAttribute In group.Attributes
+                                    If attr.Name = "Condition" Then condition = attr.Value
+                                Next
+
                                 For Each item As Xml.XmlNode In group.ChildNodes
                                     If item.Name = "OutputType" AndAlso item.InnerText = "WinExe" Then
                                         isExecutable = True
@@ -197,20 +202,22 @@ Public Class SolutionItem
                                         assemblyName = item.InnerText
                                     End If
                                     If item.Name = "OutputPath" Then
-                                        outputPaths.Add(item.InnerText)
+                                        Dim target As New ExecutableTarget
+                                        target.ProjectItem = prj
+                                        target.RelativePath = item.InnerText
+                                        target.Condition = condition
+                                        temporaryTargets.Add(target)
                                     End If
                                 Next
                             End If
                         Next
                         ProcessDirectory(prjFolder, prj, fileList)
                         If isExecutable Then
-                            For Each op In outputPaths
-                                Dim target As New ExecutableTarget
-                                target.ProjectItem = prj
-                                target.RelativePath = IO.Path.Combine(op, assemblyName + ".exe")
-                                target.Configuration = ""
-                                target.FullPath = IO.Path.Combine(prjFolder, target.RelativePath)
-                                root.ExecutableTargets.Add(target)
+                            For Each tempTarget In temporaryTargets
+                                tempTarget.RelativePath = IO.Path.Combine(tempTarget.RelativePath, assemblyName + ".exe")
+                                tempTarget.Configuration = ""
+                                tempTarget.FullPath = IO.Path.Combine(prjFolder, tempTarget.RelativePath)
+                                root.ExecutableTargets.Add(tempTarget)
                             Next
                         End If
                     End If

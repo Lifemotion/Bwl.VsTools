@@ -33,7 +33,11 @@ Public Class BuildTask
 
     Private Function FindTools() As String
         MSBuild.Rescan()
-        If MSBuild.MSBuildPath > "" Then Return MSBuild.MSBuildPath
+        If MSBuild.MSBuildPath > "" Then
+            RaiseEvent Logger("MSG", "Build tool: " + MSBuild.MSBuildPath)
+            LastBuildMessages.Add(New BuildMessage(MSBuild.MSBuildPath))
+            Return MSBuild.MSBuildPath
+        End If
         RaiseEvent Logger("ERR", "Build tools not found!")
         Throw New Exception("Build tools not found!")
     End Function
@@ -47,6 +51,7 @@ Public Class BuildTask
         prc.StartInfo.FileName = FindTools()
         prc.StartInfo.UseShellExecute = False
         prc.StartInfo.RedirectStandardOutput = True
+        prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
         prc.StartInfo.StandardOutputEncoding = System.Text.Encoding.GetEncoding(1251)
         'prc.StartInfo.StandardOutputEncoding = System.Text.Encoding.GetEncoding(850)
         prc.StartInfo.Arguments = """" + ProjectFile + """ /verbosity:m" +

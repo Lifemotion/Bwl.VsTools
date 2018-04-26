@@ -17,7 +17,8 @@
         _MsbuildPath = ""
         For Each toolPath In toolPaths
             If IO.File.Exists(toolPath) Then
-                _MsbuildPath = toolPath
+                _MSBuildPath = toolPath
+                Return
             End If
         Next
     End Sub
