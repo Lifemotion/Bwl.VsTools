@@ -108,4 +108,12 @@
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
         Me.Close()
     End Sub
+
+    Private Sub DebugToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DebugToolStripMenuItem1.Click
+        If tscbTargets.SelectedItem IsNot Nothing Then
+            Dim target As ExecutableTarget = tscbTargets.SelectedItem
+            target.Configuration = tscbConfiguration.Text
+            _runnerDebugger.RunWithDebug(FilesTree1.Root, target)
+        End If
+    End Sub
 End Class

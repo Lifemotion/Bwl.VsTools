@@ -61,3 +61,20 @@
 26.04.2018 18:10:43 ROOT [Msg] Application startup
 26.04.2018 18:10:43 ROOT [Inf] Application executable path: C:\Users\heart\Repositories\Bwl.ProjectGenerator\debug\Bwl Project Generator\bin\Bwl.ProjectGenerator.exe
 26.04.2018 18:10:43 ROOT [Inf] Application executable date: 26.04.2018 17:56:50
+29.04.2018 20:23:38 ROOT [Msg] Application startup
+29.04.2018 20:23:38 ROOT [Inf] Application executable path: C:\Users\heart\Repositories\Bwl.ProjectGenerator\debug\Bwl Project Generator\bin\Bwl.ProjectGenerator.exe
+29.04.2018 20:23:38 ROOT [Inf] Application executable date: 29.04.2018 20:23:37
+29.04.2018 20:24:26 ROOT [Msg] Application startup
+29.04.2018 20:24:26 ROOT [Inf] Application executable path: C:\Users\heart\Repositories\Bwl.ProjectGenerator\debug\Bwl Project Generator\bin\Bwl.ProjectGenerator.exe
+29.04.2018 20:24:26 ROOT [Inf] Application executable date: 29.04.2018 20:24:24
+29.04.2018 20:24:42 ROOT [Msg] Repositories updated
+29.04.2018 20:25:35 ROOT [Msg] Application startup
+29.04.2018 20:25:35 ROOT [Inf] Application executable path: C:\Users\heart\Repositories\Bwl.ProjectGenerator\debug\Bwl Project Generator\bin\Bwl.ProjectGenerator.exe
+29.04.2018 20:25:35 ROOT [Inf] Application executable date: 29.04.2018 20:25:34
+29.04.2018 20:25:44 ROOT [Msg] Repositories updated
+29.04.2018 20:27:09 ROOT [Msg] Application startup
+29.04.2018 20:27:09 ROOT [Inf] Application executable path: C:\Users\heart\Repositories\Bwl.ProjectGenerator\debug\Bwl Project Generator\bin\Bwl.ProjectGenerator.exe
+29.04.2018 20:27:09 ROOT [Inf] Application executable date: 29.04.2018 20:27:08
+29.04.2018 20:29:43 ROOT [Msg] Application startup
+29.04.2018 20:29:43 ROOT [Inf] Application executable path: C:\Users\heart\Repositories\Bwl.ProjectGenerator\debug\Bwl Project Generator\bin\Bwl.ProjectGenerator.exe
+29.04.2018 20:29:43 ROOT [Inf] Application executable date: 29.04.2018 20:29:42

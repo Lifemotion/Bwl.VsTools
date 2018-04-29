@@ -45,9 +45,9 @@ Public Class RunnerDebugger
                 If MsgBox("Build failed, run anyway?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then Return
             End If
 
-            Dim newDomain As AppDomain = AppDomain.CreateDomain("new domain")
-            AddHandler newDomain.FirstChanceException, AddressOf test
-            AddHandler newDomain.UnhandledException, AddressOf test2
+            Dim newDomain As AppDomain = AppDomain.CreateDomain("Debugging " + root.Name)
+            AddHandler newDomain.FirstChanceException, AddressOf FirstChanceException
+            AddHandler newDomain.UnhandledException, AddressOf UnhandledException
 
             Dim thr As New Threading.Thread(Sub()
 
@@ -65,12 +65,14 @@ Public Class RunnerDebugger
         End If
     End Sub
 
-    Public Shared Sub test2(sender As Object, e As UnhandledExceptionEventArgs)
+    Public Shared Sub UnhandledException(sender As Object, e As UnhandledExceptionEventArgs)
         MsgBox("2")
+        ' e.IsTerminating = False
     End Sub
 
-    Public Shared Sub test(sender As Object, e As FirstChanceExceptionEventArgs)
+    Public Shared Sub FirstChanceException(sender As Object, e As FirstChanceExceptionEventArgs)
         MsgBox("3")
+
     End Sub
 
 End Class
