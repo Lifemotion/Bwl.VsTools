@@ -209,6 +209,9 @@ Public Class SolutionItem
                                     If item.Name = "OutputType" AndAlso item.InnerText = "WinExe" Then
                                         isExecutable = True
                                     End If
+                                    If item.Name = "OutputType" AndAlso item.InnerText = "Exe" Then
+                                        isExecutable = True
+                                    End If
                                     If item.Name = "AssemblyName" Then
                                         assemblyName = item.InnerText
                                     End If

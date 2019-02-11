@@ -100,7 +100,7 @@
     Private Sub tsbOpenSolution_Click(sender As Object, e As EventArgs) Handles tsbOpenSolution.Click, OpenSolutionToolStripMenuItem.Click
         Dim dlg As New OpenFileDialog
         dlg.Filter = "Solutions|*.sln"
-        If dlg.ShowDialog = DialogResult.OK Then
+        If dlg.ShowDialog(Me) = DialogResult.OK Then
             OpenPath(dlg.FileName)
         End If
     End Sub
@@ -114,6 +114,14 @@
             Dim target As ExecutableTarget = tscbTargets.SelectedItem
             target.Configuration = tscbConfiguration.Text
             _runnerDebugger.RunWithDebug(FilesTree1.Root, target)
+        End If
+    End Sub
+
+    Private Sub NewSolutionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewSolutionToolStripMenuItem.Click
+        Dim dlg As New NewSolutionDialog
+        dlg.ShowDialog(Me)
+        If dlg.CreatedSolutionPath > "" Then
+            OpenPath(dlg.CreatedSolutionPath)
         End If
     End Sub
 End Class

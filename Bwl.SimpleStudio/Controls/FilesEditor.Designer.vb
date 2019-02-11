@@ -28,6 +28,8 @@ Partial Class FilesEditor
         '
         'TextBox1
         '
+        Me.TextBox1.AcceptsReturn = True
+        Me.TextBox1.AcceptsTab = True
         Me.TextBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)

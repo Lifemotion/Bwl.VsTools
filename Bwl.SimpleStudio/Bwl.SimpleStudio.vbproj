@@ -131,6 +131,13 @@
     <Compile Include="Controls\FilesTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="NewSolution\NewSolutionDialog.Designer.vb">
+      <DependentUpon>NewSolutionDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NewSolution\NewSolutionDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewSolution\NewSolutionTools.vb" />
     <Compile Include="RunnerDebugger.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\FilesTree.resx">
       <DependentUpon>FilesTree.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewSolution\NewSolutionDialog.resx">
+      <DependentUpon>NewSolutionDialog.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
