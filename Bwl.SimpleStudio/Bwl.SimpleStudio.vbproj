@@ -223,6 +223,12 @@
     <None Include="Resources\document-open.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bwl.TextBox\Bwl.TextBox.vbproj">
+      <Project>{21cf501e-a6b8-4e51-8d97-73e02bf77d27}</Project>
+      <Name>Bwl.TextBox</Name>
+    </ProjectReference>
+  </ItemGroup>
   <!--PRJREFS-->
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
