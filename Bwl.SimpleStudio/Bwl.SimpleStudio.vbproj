@@ -224,9 +224,9 @@
     <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bwl.TextBox\Bwl.TextBox.vbproj">
+    <ProjectReference Include="..\Bwl.TextBox\Bwl.TextBoxEx.vbproj">
       <Project>{21cf501e-a6b8-4e51-8d97-73e02bf77d27}</Project>
-      <Name>Bwl.TextBox</Name>
+      <Name>Bwl.TextBoxEx</Name>
     </ProjectReference>
   </ItemGroup>
   <!--PRJREFS-->

@@ -22,23 +22,10 @@ Partial Class FilesEditor
     'Не изменяйте ее в редакторе исходного кода.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FilesEditor))
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.TextBoxEx1 = New Bwl.TextBoxEx.TextBoxEx()
         Me.SuspendLayout()
-        '
-        'TextBox1
-        '
-        Me.TextBox1.AcceptsReturn = True
-        Me.TextBox1.AcceptsTab = True
-        Me.TextBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.Location = New System.Drawing.Point(1, 24)
-        Me.TextBox1.Multiline = True
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox1.Size = New System.Drawing.Size(824, 632)
-        Me.TextBox1.TabIndex = 4
         '
         'ComboBox1
         '
@@ -49,19 +36,33 @@ Partial Class FilesEditor
         Me.ComboBox1.Size = New System.Drawing.Size(236, 21)
         Me.ComboBox1.TabIndex = 3
         '
+        'TextBoxEx1
+        '
+        Me.TextBoxEx1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBoxEx1.BackColor = System.Drawing.Color.White
+        Me.TextBoxEx1.BackgroundImage = CType(resources.GetObject("TextBoxEx1.BackgroundImage"), System.Drawing.Image)
+        Me.TextBoxEx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxEx1.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.TextBoxEx1.Location = New System.Drawing.Point(0, 23)
+        Me.TextBoxEx1.Name = "TextBoxEx1"
+        Me.TextBoxEx1.NewLineSpacesAsPreviousLine = True
+        Me.TextBoxEx1.Size = New System.Drawing.Size(826, 634)
+        Me.TextBoxEx1.TabIndex = 4
+        Me.TextBoxEx1.TabSize = 4
+        '
         'FilesEditor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.TextBoxEx1)
         Me.Controls.Add(Me.ComboBox1)
         Me.Name = "FilesEditor"
         Me.Size = New System.Drawing.Size(826, 657)
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents TextBox1 As TextBox
     Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents TextBoxEx1 As TextBoxEx.TextBoxEx
 End Class

@@ -8,6 +8,7 @@ Partial Class TextBoxEx
         Try
             If disposing AndAlso components IsNot Nothing Then
                 components.Dispose()
+                UserDispose
             End If
         Finally
             MyBase.Dispose(disposing)
@@ -23,25 +24,49 @@ Partial Class TextBoxEx
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.cursorTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.CursorTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.VScrollBar1 = New System.Windows.Forms.VScrollBar()
+        Me.HScrollBar1 = New System.Windows.Forms.HScrollBar()
         Me.SuspendLayout()
         '
-        'cursorTimer
+        'CursorTimer
         '
-        Me.cursorTimer.Enabled = True
-        Me.cursorTimer.Interval = 500
+        Me.CursorTimer.Enabled = True
+        Me.CursorTimer.Interval = 1000
+        '
+        'VScrollBar1
+        '
+        Me.VScrollBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VScrollBar1.Location = New System.Drawing.Point(543, 0)
+        Me.VScrollBar1.Name = "VScrollBar1"
+        Me.VScrollBar1.Size = New System.Drawing.Size(17, 343)
+        Me.VScrollBar1.TabIndex = 0
+        '
+        'HScrollBar1
+        '
+        Me.HScrollBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.HScrollBar1.Location = New System.Drawing.Point(0, 343)
+        Me.HScrollBar1.Name = "HScrollBar1"
+        Me.HScrollBar1.Size = New System.Drawing.Size(543, 19)
+        Me.HScrollBar1.TabIndex = 1
         '
         'TextBoxEx
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
+        Me.Controls.Add(Me.HScrollBar1)
+        Me.Controls.Add(Me.VScrollBar1)
         Me.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.Name = "TextBoxEx"
-        Me.Size = New System.Drawing.Size(592, 418)
+        Me.Size = New System.Drawing.Size(560, 362)
         Me.ResumeLayout(False)
 
     End Sub
 
-    Friend WithEvents cursorTimer As Windows.Forms.Timer
+    Friend WithEvents CursorTimer As Windows.Forms.Timer
+    Friend WithEvents VScrollBar1 As Windows.Forms.VScrollBar
+    Friend WithEvents HScrollBar1 As Windows.Forms.HScrollBar
 End Class

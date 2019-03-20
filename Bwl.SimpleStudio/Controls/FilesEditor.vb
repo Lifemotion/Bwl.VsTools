@@ -1,22 +1,32 @@
-﻿Public Class FilesEditor
+﻿Imports Bwl.TextBoxEx
+
+Public Class FilesEditor
     Private _item As SolutionItem
     Private _itemText As String
+    Private _vbnetExtender As New VBNetExtender
+    Private _xmlExtender As New XmlExtender
 
     Public Sub SetAssociatedItem(item As SolutionItem)
         _item = item
-        TextBox1.Text = IO.File.ReadAllText(item.FullPath)
-        AddHandler TextBox1.TextChanged, Sub()
-                                             _item.UnsavedContent = TextBox1.Text
-                                         End Sub
+        _vbnetExtender.DisconnectFrom(TextBoxEx1)
+        _xmlExtender.DisconnectFrom(TextBoxEx1)
+        Select Case IO.Path.GetExtension(item.FullPath.ToLower)
+            Case ".vb"
+                _vbnetExtender.ConnectTo(TextBoxEx1)
+            Case ".xml", ".vbproj", ".sln"
+                _xmlExtender.ConnectTo(TextBoxEx1)
+        End Select
+        AddHandler TextBoxEx1.TextChanged, Sub()
+                                               _item.UnsavedContent = TextBoxEx1.Lines
+                                           End Sub
+        TextBoxEx1.LoadFromString(IO.File.ReadAllText(item.FullPath))
     End Sub
 
     Public Sub SetCursor(line As Integer, column As Integer)
-        Dim pos = TextBox1.GetFirstCharIndexFromLine(line - 1)
-        Dim pos2 = TextBox1.GetFirstCharIndexFromLine(line)
-        If (pos > -1) Then
-            TextBox1.Select()
-            TextBox1.Select(pos + column - 1, pos2 - pos-column-1)
-            TextBox1.ScrollToCaret()
-        End If
+        TextBoxEx1.SetPosition(New TextBoxEx.TextPosition(line - 1, column - 1))
+    End Sub
+
+    Private Sub FilesEditor_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
     End Sub
 End Class

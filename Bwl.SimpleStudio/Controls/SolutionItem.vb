@@ -27,15 +27,15 @@ Public Class SolutionItem
 
     Public Event UnsavedContentChanged(source As SolutionItem)
 
-    Private _unsavedContent As String
+    Private _unsavedContent As IList(Of TextBoxEx.TextLine)
     Private _di As IO.DirectoryInfo
     Private _fi As IO.FileSystemInfo
 
-    Public Property UnsavedContent As String
+    Public Property UnsavedContent As IList(Of TextBoxEx.TextLine)
         Get
             Return _unsavedContent
         End Get
-        Set(value As String)
+        Set(value As IList(Of TextBoxEx.TextLine))
             _unsavedContent = value
             RaiseEvent UnsavedContentChanged(Me)
         End Set
@@ -43,7 +43,12 @@ Public Class SolutionItem
 
     Public Sub Save()
         If _unsavedContent IsNot Nothing Then
-            IO.File.WriteAllText(FullPath, _unsavedContent)
+            Dim sb As New Text.StringBuilder
+            For Each line In _unsavedContent
+                sb.AppendLine(line.Text)
+            Next
+
+            IO.File.WriteAllText(FullPath, sb.ToString)
             UnsavedContent = Nothing
         End If
     End Sub
@@ -216,10 +221,10 @@ Public Class SolutionItem
                                         assemblyName = item.InnerText
                                     End If
                                     If item.Name = "OutputPath" Then
-                                        Dim target As New ExecutableTarget
-                                        target.ProjectItem = prj
-                                        target.RelativePath = item.InnerText
-                                        target.Condition = condition
+                                        Dim target As New ExecutableTarget With {
+                                            .ProjectItem = prj,
+                                            .RelativePath = item.InnerText,
+                                            .Condition = condition}
                                         temporaryTargets.Add(target)
                                     End If
                                 Next

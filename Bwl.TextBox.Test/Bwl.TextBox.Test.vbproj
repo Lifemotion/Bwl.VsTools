@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D7A12DAE-2172-40B1-9DAD-9B74E1F3857A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Bwl.TextBox.Test.My.MyApplication</StartupObject>
-    <RootNamespace>Bwl.TextBox.Test</RootNamespace>
-    <AssemblyName>Bwl.TextBox.Test</AssemblyName>
+    <StartupObject>Bwl.TextBoxEx.Test.My.MyApplication</StartupObject>
+    <RootNamespace>Bwl.TextBoxEx.Test</RootNamespace>
+    <AssemblyName>Bwl.TextBoxEx.Test</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -20,7 +20,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Bwl.TextBox.Test.xml</DocumentationFile>
+    <DocumentationFile>Bwl.TextBoxEx.Test.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -30,7 +30,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Bwl.TextBox.Test.xml</DocumentationFile>
+    <DocumentationFile>Bwl.TextBoxEx.Test.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -115,9 +115,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bwl.TextBox\Bwl.TextBox.vbproj">
+    <ProjectReference Include="..\Bwl.TextBox\Bwl.TextBoxEx.vbproj">
       <Project>{21cf501e-a6b8-4e51-8d97-73e02bf77d27}</Project>
-      <Name>Bwl.TextBox</Name>
+      <Name>Bwl.TextBoxEx</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

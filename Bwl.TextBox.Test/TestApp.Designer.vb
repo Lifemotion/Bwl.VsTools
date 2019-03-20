@@ -23,7 +23,7 @@ Partial Class TestApp
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TestApp))
-        Me.TextBoxEx1 = New Bwl.TextBox.TextBoxEx()
+        Me.TextBoxEx1 = New Bwl.TextBoxEx.TextBoxEx()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
@@ -36,7 +36,6 @@ Partial Class TestApp
         Me.TextBoxEx1.BackgroundImage = CType(resources.GetObject("TextBoxEx1.BackgroundImage"), System.Drawing.Image)
         Me.TextBoxEx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxEx1.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.TextBoxEx1.FontSize = 9
         Me.TextBoxEx1.Location = New System.Drawing.Point(12, 12)
         Me.TextBoxEx1.Name = "TextBoxEx1"
         Me.TextBoxEx1.NewlineSpacesAsPreviousLine = True
@@ -65,6 +64,6 @@ Partial Class TestApp
 
     End Sub
 
-    Friend WithEvents TextBoxEx1 As TextBoxEx
+    Friend WithEvents TextBoxEx1 As Bwl.TextBoxEx.TextBoxEx
     Friend WithEvents TextBox1 As Windows.Forms.TextBox
 End Class

@@ -2,9 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.TextBox", "Bwl.TextBox\Bwl.TextBox.vbproj", "{21CF501E-A6B8-4E51-8D97-73E02BF77D27}"
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.TextBox.Test", "Bwl.TextBox.Test\Bwl.TextBox.Test.vbproj", "{D7A12DAE-2172-40B1-9DAD-9B74E1F3857A}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.TextBoxEx", "Bwl.TextBox\Bwl.TextBoxEx.vbproj", "{21CF501E-A6B8-4E51-8D97-73E02BF77D27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,14 +12,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{21CF501E-A6B8-4E51-8D97-73E02BF77D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21CF501E-A6B8-4E51-8D97-73E02BF77D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21CF501E-A6B8-4E51-8D97-73E02BF77D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21CF501E-A6B8-4E51-8D97-73E02BF77D27}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7A12DAE-2172-40B1-9DAD-9B74E1F3857A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7A12DAE-2172-40B1-9DAD-9B74E1F3857A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7A12DAE-2172-40B1-9DAD-9B74E1F3857A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7A12DAE-2172-40B1-9DAD-9B74E1F3857A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21CF501E-A6B8-4E51-8D97-73E02BF77D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21CF501E-A6B8-4E51-8D97-73E02BF77D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21CF501E-A6B8-4E51-8D97-73E02BF77D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21CF501E-A6B8-4E51-8D97-73E02BF77D27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
