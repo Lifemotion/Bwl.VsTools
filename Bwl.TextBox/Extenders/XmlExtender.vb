@@ -1,14 +1,13 @@
 ﻿Imports System.Drawing
 
 Public Class XmlExtender
-    Inherits CommonExtender
 
-    Public Overrides Sub ConnectTo(textbox As TextBoxEx)
+    Public Sub ConnectTo(textbox As TextBoxEx)
         DisconnectFrom(textbox)
         AddHandler textbox.BeforeDrawLine, AddressOf TextBoxEx_BeforeDrawLine
     End Sub
 
-    Public Overrides Sub DisconnectFrom(textbox As TextBoxEx)
+    Public Sub DisconnectFrom(textbox As TextBoxEx)
         Try
             RemoveHandler textbox.BeforeDrawLine, AddressOf TextBoxEx_BeforeDrawLine
         Catch ex As Exception
@@ -16,7 +15,8 @@ Public Class XmlExtender
     End Sub
 
     Private Sub TextBoxEx_BeforeDrawLine(sender As Object, index As Integer, line As TextLine)
-        ReDim line.Attributes(line.Text.Length - 1)
+        Dim attribs(line.Text.Length - 1) As TextAttribute
+
         Dim tokens = TokenizeXml(line.Text)
         Dim open As New TextAttribute With {.ForeColor = Color.Blue}
         Dim close As New TextAttribute With {.ForeColor = Color.DarkBlue}
@@ -24,20 +24,20 @@ Public Class XmlExtender
         Dim str As New TextAttribute With {.ForeColor = Color.Purple}
         Dim comment As New TextAttribute With {.ForeColor = Color.DarkGreen}
         For Each token In tokens
-            If IsNumeric(token.Str) Then token.ApplyAttribute(line.Attributes, digit)
-            If token.Str.StartsWith("""") Then token.ApplyAttribute(line.Attributes, str)
-            If token.Str.StartsWith("<") Then token.ApplyAttribute(line.Attributes, open)
-            If token.Str.StartsWith("</") Then token.ApplyAttribute(line.Attributes, close)
+            If IsNumeric(token.Str) Then token.ApplyAttribute(attribs, digit)
+            If token.Str.StartsWith("""") Then token.ApplyAttribute(attribs, str)
+            If token.Str.StartsWith("<") Then token.ApplyAttribute(attribs, open)
+            If token.Str.StartsWith("</") Then token.ApplyAttribute(attribs, close)
         Next
         For i = 0 To line.Text.Length - 1
             If line.Text(i) = "'" Then
                 For j = i To line.Text.Length - 1
-                    line.Attributes(j) = comment
+                    attribs(j) = comment
                 Next
                 Exit For
             End If
         Next
-
+        line.SetAttributes(attribs)
     End Sub
 
     Friend Function TokenizeXml(str As String) As List(Of Token)
@@ -57,5 +57,16 @@ Public Class XmlExtender
         If started > -1 Then tokens.Add(New Token With {.IndexFrom = started, .IndexTo = str.Length - 1, .Str = str.Substring(.IndexFrom, .IndexTo - .IndexFrom + 1)})
         Return tokens
     End Function
+
+    Public Class Token
+        Public Str As String
+        Public IndexFrom As Integer
+        Public IndexTo As Integer
+        Public Sub ApplyAttribute(attribArray As TextAttribute(), attrib As TextAttribute)
+            For i = IndexFrom To IndexTo
+                attribArray(i) = attrib
+            Next
+        End Sub
+    End Class
 
 End Class

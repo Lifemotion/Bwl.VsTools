@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class TextBoxEx
     Inherits System.Windows.Forms.UserControl
 
     'Пользовательский элемент управления (UserControl) переопределяет метод Dispose для очистки списка компонентов.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -21,18 +21,19 @@ Partial Class TextBoxEx
     'Примечание: следующая процедура является обязательной для конструктора форм Windows Forms
     'Для ее изменения используйте конструктор форм Windows Form.  
     'Не изменяйте ее в редакторе исходного кода.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.CursorTimer = New System.Windows.Forms.Timer(Me.components)
         Me.VScrollBar1 = New System.Windows.Forms.VScrollBar()
         Me.HScrollBar1 = New System.Windows.Forms.HScrollBar()
+        Me.InputTimer = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'CursorTimer
         '
         Me.CursorTimer.Enabled = True
-        Me.CursorTimer.Interval = 1000
+        Me.CursorTimer.Interval = 500
         '
         'VScrollBar1
         '
@@ -52,6 +53,10 @@ Partial Class TextBoxEx
         Me.HScrollBar1.Size = New System.Drawing.Size(543, 19)
         Me.HScrollBar1.TabIndex = 1
         '
+        'InputTimer
+        '
+        Me.InputTimer.Interval = 1000
+        '
         'TextBoxEx
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -69,4 +74,5 @@ Partial Class TextBoxEx
     Friend WithEvents CursorTimer As Windows.Forms.Timer
     Friend WithEvents VScrollBar1 As Windows.Forms.VScrollBar
     Friend WithEvents HScrollBar1 As Windows.Forms.HScrollBar
+    Friend WithEvents InputTimer As Windows.Forms.Timer
 End Class

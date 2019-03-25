@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.IO
 Imports System.Text
+Imports System.Timers
 Imports System.Windows.Forms
 
 Public Class TextBoxEx
@@ -8,18 +9,22 @@ Public Class TextBoxEx
     Public Property TabSize As Integer = 4
     Public Property NewLineSpacesAsPreviousLine As Boolean = True
 
+    'current state
+    Private _lines As New List(Of TextLine)({New TextLine})
     Private _currentPosition As TextPosition
     Private _scrollPosition As TextPosition
+    Private _selectedStart As TextPosition
+    Private _selectedEnd As TextPosition
 
-    Private _graphics As Graphics
-    Private _focused As Boolean
-
+    'internal
     Private _cursorPen As Pen
     Private _backgoundPen As Pen
     Private _textPen As Pen
     Private _backgoundBrush As Brush
     Private _selectedBrush As Brush
-
+    Private _graphics As Graphics
+    Private _focused As Boolean
+    Private _clickedStart As TextPosition
     Private _colorScheme As New ColorScheme
     Private _linesPerScreen As Integer
     Private _columnsPerScreen As Integer
@@ -27,8 +32,9 @@ Public Class TextBoxEx
     Private _controlGraphics As Graphics
     Private _fontParams As New FontParams
     Private _previousCopiedWholeLine As String = ""
-
-    Private _lines As New List(Of TextLine)({New TextLine})
+    Private _undoBuffer As New Stack(Of StateSnapshot)
+    Private _redoBuffer As New Stack(Of StateSnapshot)
+    Private _lastEditedLine As Integer = -1
 
     Private Class FontParams
         Implements IDisposable
@@ -164,8 +170,14 @@ Public Class TextBoxEx
             Next
         End If
         _selectedEnd = _selectedStart
-        RaiseEvent TextChanged(Me)
+        SaveCurrentState()
         RedrawAll()
+        RaiseEvent TextChanged(Me)
+    End Sub
+
+    Private Sub SaveCurrentState()
+        _undoBuffer.Push(StateSnapshot.CreateFrom(Me))
+        _redoBuffer.Clear()
     End Sub
 
     Private Sub PasteClipboard()
@@ -181,11 +193,25 @@ Public Class TextBoxEx
             Next
         End If
         _selectedEnd = _selectedStart
-        RaiseEvent TextChanged(Me)
         RedrawAll()
+        SaveCurrentState()
+        RaiseEvent TextChanged(Me)
     End Sub
 
     Public Shadows Event TextChanged(sender As Object)
+    Public Event LineEdited(sender As Object, lineIndex As Integer, line As TextLine, ByRef needRedraw As Boolean)
+
+    Private Sub CheckLineWasEdited()
+        If _lastEditedLine > -1 Then
+            Dim needRedraw As Boolean
+            RaiseEvent LineEdited(Me, _lastEditedLine, _lines(_lastEditedLine), needRedraw)
+            If needRedraw Then
+                ClearLine(_lastEditedLine)
+                DrawLine(_lastEditedLine)
+            End If
+            _lastEditedLine = -1
+        End If
+    End Sub
 
     Private Sub TextBoxEx_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If _focused Then
@@ -205,6 +231,8 @@ Public Class TextBoxEx
                         _currentPosition.LineIndex += 1
                         RedrawAll()
                         RaiseEvent TextChanged(Me)
+
+                        _InputTimer.Stop() : _inputTimer.Start()
                     Case vbTab
                         If My.Computer.Keyboard.ShiftKeyDown = False Then
                             If _selectedEnd = _selectedStart Then
@@ -222,6 +250,8 @@ Public Class TextBoxEx
                                 Next
                             End If
                             DrawCursor(True)
+                            RaiseEvent TextChanged(Me)
+                            _inputTimer.Stop() : _inputTimer.Start()
                         Else
                             If _selectedEnd = _selectedStart Then
                                 Dim spaces = CountStartringSpaces(CurrentLine.Text)
@@ -240,7 +270,9 @@ Public Class TextBoxEx
                             End If
                             DrawCursor(True)
                             RaiseEvent TextChanged(Me)
+                            _inputTimer.Stop() : _inputTimer.Start()
                         End If
+                        _lastEditedLine = _currentPosition.LineIndex
                     Case vbBack
                         If _selectedEnd <> _selectedStart Then
                             DeleteSelected()
@@ -260,16 +292,53 @@ Public Class TextBoxEx
                             End If
                         End If
                         RaiseEvent TextChanged(Me)
+                        _InputTimer.Stop() : _InputTimer.Start()
+                        _lastEditedLine = _currentPosition.LineIndex
                     Case Else
                         CurrentLine.Text = CurrentLine.Text.Insert(_currentPosition.ColumnIndex, e.KeyChar.ToString)
                         _currentPosition.ColumnIndex += 1
                         ClearDrawCurrentLine()
                         DrawCursor(True)
                         RaiseEvent TextChanged(Me)
+                        _inputTimer.Stop() : _inputTimer.Start()
+                        _lastEditedLine = _currentPosition.LineIndex
                 End Select
             End If
         End If
     End Sub
+
+    Private Class StateSnapshot
+        Private _lines As New List(Of TextLine)
+        Private _selectedStart As TextPosition
+        Private _selectedEnd As TextPosition
+        Private _currentPosition As TextPosition
+        Private _scrollPosition As TextPosition
+
+        Public Shared Function CreateFrom(tb As TextBoxEx) As StateSnapshot
+            Dim ss As New StateSnapshot
+            ss._currentPosition = tb._currentPosition
+            ss._selectedStart = tb._selectedStart
+            ss._selectedEnd = tb._selectedEnd
+            ss._scrollPosition = tb._scrollPosition
+            For Each line In tb._lines
+                ss._lines.Add(New TextLine(line.Text))
+            Next
+            Return ss
+        End Function
+
+        Public Sub ApplyTo(tb As TextBoxEx)
+            tb._currentPosition = _currentPosition
+            tb._selectedStart = _selectedStart
+            tb._selectedEnd = _selectedEnd
+            tb._scrollPosition = _scrollPosition
+            tb._lines.Clear()
+            For Each line In _lines
+                tb._lines.Add(New TextLine(line.Text))
+            Next
+            tb.RedrawAll()
+        End Sub
+
+    End Class
 
     Private Sub ClearDrawCurrentLine()
         ClearLine(_currentPosition.LineIndex)
@@ -357,8 +426,27 @@ Public Class TextBoxEx
                 Case Keys.PageDown : ChangePosition(_linesPerScreen, 0) : e.IsInputKey = True
                 Case Keys.PageUp : ChangePosition(-_linesPerScreen, 0) : e.IsInputKey = True
                 Case Keys.Tab : e.IsInputKey = True
+                Case Keys.Delete
+                    If _selectedEnd <> _selectedStart Then
+                        DeleteSelected()
+                    Else
+                        If _currentPosition.ColumnIndex < _lines(_currentPosition.LineIndex).Text.Length Then
+                            CurrentLine.Text = CurrentLine.Text.Remove(_currentPosition.ColumnIndex, 1)
+                            ClearDrawCurrentLine()
+                        Else
+                            If _currentPosition.LineIndex < _lines.Count - 1 Then
+                                CurrentLine.Text += _lines(_currentPosition.LineIndex + 1).Text
+                                _lines.RemoveAt(_currentPosition.LineIndex + 1)
+                                RedrawAll()
+                            End If
+                        End If
+                    End If
+                    RaiseEvent TextChanged(Me)
+                    _InputTimer.Stop() : _InputTimer.Start()
             End Select
         End If
+
+
         If e.Control = True And e.Alt = False Then
             Select Case e.KeyCode
                 Case Keys.C
@@ -368,9 +456,29 @@ Public Class TextBoxEx
                 Case Keys.X
                     CopySelectedToClipboard()
                     DeleteSelected()
+                Case Keys.Z
+                    Undo()
+                Case Keys.Y
+                    Redo()
             End Select
         End If
 
+    End Sub
+
+    Public Sub Undo()
+        If _undoBuffer.Count > 0 Then
+            Dim state = _undoBuffer.Pop
+            state.ApplyTo(Me)
+            _redoBuffer.Push(state)
+        End If
+    End Sub
+
+    Public Sub Redo()
+        If _redoBuffer.Count > 0 Then
+            Dim state = _redoBuffer.Pop
+            state.ApplyTo(Me)
+            _undoBuffer.Push(state)
+        End If
     End Sub
 
     Public Sub ChangePosition(lineChange As Integer, columnChange As Integer)
@@ -404,6 +512,7 @@ Public Class TextBoxEx
 
             DrawCursor(True)
         End If
+        CheckLineWasEdited()
     End Sub
 
     Public Sub RedrawAll()
@@ -432,12 +541,9 @@ Public Class TextBoxEx
         Next
         Dim ms = (Now - time).TotalMilliseconds
         ShowGraphics()
+        CheckLineWasEdited()
     End Sub
 
-    Private _selectedStart As TextPosition
-    Private _selectedEnd As TextPosition
-
-    Private _clickedStart As TextPosition
     Private Sub TextBoxEx_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
         If _focused And e.Button = MouseButtons.Left Then
             Dim pos = ScreenToTextPosition(e.X, e.Y)
@@ -458,6 +564,7 @@ Public Class TextBoxEx
                 _selectedStart = pos
                 _selectedEnd = pos
             End If
+            CheckLineWasEdited()
         End If
     End Sub
 
@@ -526,7 +633,6 @@ Public Class TextBoxEx
         RedrawAll()
     End Sub
 
-
     Public ReadOnly Property Lines As IList(Of TextLine)
         Get
             Return _lines.AsReadOnly
@@ -551,9 +657,16 @@ Public Class TextBoxEx
         _selectedStart = New TextPosition
         _selectedEnd = New TextPosition
         _currentPosition = New TextPosition
+        _undoBuffer.Clear()
+        _redoBuffer.Clear()
+        SaveCurrentState()
         RedrawAll()
     End Sub
 
+    Private Sub InputTimer_Tick_1(sender As Object, e As EventArgs) Handles InputTimer.Tick
+        _InputTimer.Stop()
+        SaveCurrentState()
+    End Sub
 End Class
 
 Public Structure TextPosition
@@ -606,8 +719,24 @@ Public Structure TextPosition
 End Structure
 
 Public Class TextLine
-    Public Property Text As String = ""
-    Public Property Attributes As TextAttribute() = {}
+    Private _text As String = ""
+    Public ReadOnly Property Attributes As TextAttribute()
+    Public ReadOnly Property AttributesValid As Boolean
+
+    Public Property Text As String
+        Get
+            Return _text
+        End Get
+        Set(value As String)
+            _text = value
+            _AttributesValid = False
+        End Set
+    End Property
+
+    Public Sub SetAttributes(attrbArray As TextAttribute())
+        _Attributes = attrbArray
+        _AttributesValid = True
+    End Sub
 
     Public Sub New()
     End Sub
@@ -619,6 +748,7 @@ Public Class TextLine
     Public Overrides Function ToString() As String
         Return Text
     End Function
+
 End Class
 
 Public Class TextAttribute
