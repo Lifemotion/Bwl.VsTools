@@ -23,7 +23,7 @@ Public Class FilesEditor
     End Sub
 
     Public Sub SetCursor(line As Integer, column As Integer)
-        TextBoxEx1.SetPosition(New TextBoxEx.TextPosition(line - 1, column - 1))
+        TextBoxEx1.SetPosition(New TextPosition(line - 1, column - 1))
     End Sub
 
     Private Sub FilesEditor_Load(sender As Object, e As EventArgs) Handles MyBase.Load

@@ -24,7 +24,7 @@ Partial Class FilesEditor
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FilesEditor))
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.TextBoxEx1 = New Bwl.TextBoxEx.TextBoxEx()
+        Me.TextBoxEx1 = New TextBoxEx()
         Me.SuspendLayout()
         '
         'ComboBox1
@@ -64,5 +64,5 @@ Partial Class FilesEditor
 
     End Sub
     Friend WithEvents ComboBox1 As ComboBox
-    Friend WithEvents TextBoxEx1 As TextBoxEx.TextBoxEx
+    Friend WithEvents TextBoxEx1 As TextBoxEx
 End Class

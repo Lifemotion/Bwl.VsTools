@@ -18,7 +18,7 @@ Public Class VBNetExtender
     End Sub
 
     Private Sub TextBoxEx_LineEdited(sender As Object, lineIndex As Integer, line As TextLine, ByRef needRedraw As Boolean)
-        Throw New NotImplementedException()
+        ' Throw New NotImplementedException()
     End Sub
 
     Private Sub TextBoxEx_BeforeDrawLine(sender As Object, index As Integer, line As TextLine)

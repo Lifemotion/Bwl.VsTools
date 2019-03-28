@@ -27,15 +27,15 @@ Public Class SolutionItem
 
     Public Event UnsavedContentChanged(source As SolutionItem)
 
-    Private _unsavedContent As IList(Of TextBoxEx.TextLine)
+    Private _unsavedContent As IList(Of TextLine)
     Private _di As IO.DirectoryInfo
     Private _fi As IO.FileSystemInfo
 
-    Public Property UnsavedContent As IList(Of TextBoxEx.TextLine)
+    Public Property UnsavedContent As IList(Of TextLine)
         Get
             Return _unsavedContent
         End Get
-        Set(value As IList(Of TextBoxEx.TextLine))
+        Set(value As IList(Of TextLine))
             _unsavedContent = value
             RaiseEvent UnsavedContentChanged(Me)
         End Set
