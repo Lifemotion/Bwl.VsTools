@@ -152,7 +152,9 @@
         If tvFiles.SelectedNode IsNot Nothing AndAlso tvFiles.SelectedNode.Tag IsNot Nothing Then
             Dim repNode As SolutionItem = tvFiles.SelectedNode.Tag
             If repNode.IsDirectory = False Then
-                RaiseEvent FileOpenRequest(repNode)
+                If repNode.Childs.Count = 0 Or My.Computer.Keyboard.ShiftKeyDown Then
+                    RaiseEvent FileOpenRequest(repNode)
+                End If
             End If
         End If
     End Sub

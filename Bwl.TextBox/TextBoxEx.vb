@@ -360,7 +360,7 @@ Public Class TextBoxEx
             Dim i = j '- _scrollPosition.ColumnIndex
             Dim requestedColor = Color.Black
             Dim charRect = TextPositionToScreen(New TextPosition(linexIndex, i))
-            If i < line.Attributes.Length AndAlso line.Attributes(i) IsNot Nothing Then
+            If line.Attributes IsNot Nothing AndAlso i < line.Attributes.Length AndAlso line.Attributes(i) IsNot Nothing Then
                 requestedColor = line.Attributes(i).ForeColor
             End If
             If brushColor <> requestedColor Then

@@ -64,10 +64,15 @@
     End Sub
 
     Private Sub tsbBuildAll_Click(sender As Object, e As EventArgs) Handles tsbBuildAll.Click, BuildAllToolStripMenuItem.Click
-        If FilesTree1.Root IsNot Nothing AndAlso FilesTree1.Root.SaveAllWithAsk = DialogResult.OK Then
-            _runnerDebugger.StopRunning()
-            _builder.BuildAll(FilesTree1.Root, tscbConfiguration.Text)
-        End If
+        Try
+            If FilesTree1.Root IsNot Nothing AndAlso FilesTree1.Root.SaveAllWithAsk = DialogResult.OK Then
+                _runnerDebugger.StopRunning()
+                _builder.BuildAll(FilesTree1.Root, tscbConfiguration.Text)
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, vbCritical)
+        End Try
+
     End Sub
 
     Private Sub tsbSave_Click(sender As Object, e As EventArgs) Handles tsbSave.Click, SaveFileToolStripMenuItem.Click

@@ -72,6 +72,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Bwl.TextBox\Extenders\CExtender.vb">
+      <Link>Textbox\CExtender.vb</Link>
+    </Compile>
     <Compile Include="..\Bwl.TextBox\Extenders\VBNetExtender.vb">
       <Link>Textbox\VBNetExtender.vb</Link>
     </Compile>

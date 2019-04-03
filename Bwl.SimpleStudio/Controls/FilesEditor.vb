@@ -5,16 +5,20 @@ Public Class FilesEditor
     Private _itemText As String
     Private _vbnetExtender As New VBNetExtender
     Private _xmlExtender As New XmlExtender
+    Private _cExtender As New CExtender
 
     Public Sub SetAssociatedItem(item As SolutionItem)
         _item = item
         _vbnetExtender.DisconnectFrom(TextBoxEx1)
         _xmlExtender.DisconnectFrom(TextBoxEx1)
+        _cExtender.DisconnectFrom(TextBoxEx1)
         Select Case IO.Path.GetExtension(item.FullPath.ToLower)
             Case ".vb"
                 _vbnetExtender.ConnectTo(TextBoxEx1)
             Case ".xml", ".vbproj", ".sln"
                 _xmlExtender.ConnectTo(TextBoxEx1)
+            Case ".c", ".cpp", ".h"
+                _cextender.ConnectTo(TextBoxEx1)
         End Select
         AddHandler TextBoxEx1.TextChanged, Sub()
                                                _item.UnsavedContent = TextBoxEx1.Lines
