@@ -3,10 +3,28 @@
     Private _runnerDebugger As RunnerDebugger
 
     Private Sub App_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If Command() = "#special-addtoexplorer" Then
+            Dim cont As New ExplorerContextMenu("BwlSimpleStudio")
+            If cont.IsAdded Then
+                cont.Delete()
+            Else
+                cont.AddOrChange("Bwl.SimpleStudio " + Application.ProductVersion.ToString, System.Reflection.Assembly.GetEntryAssembly().Location)
+            End If
+            End
+        End If
         _builder = New Builder(ErrorsList1)
-        _runnerDebugger = New RunnerDebugger(_builder)
+            _runnerDebugger = New RunnerDebugger(_builder)
         Text = "Bwl.SimpleStudio " + Application.ProductVersion.ToString
         OpenPath(Command().Replace("""", ""))
+    End Sub
+
+    Private Sub AddToExplorerContextMenuToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToExplorerContextMenuToolStripMenuItem.Click
+        Dim proc = New Process()
+        proc.StartInfo.FileName = System.Reflection.Assembly.GetEntryAssembly().Location
+        proc.StartInfo.UseShellExecute = True
+        proc.StartInfo.Verb = "runas"
+        proc.StartInfo.Arguments = "#special-addtoexplorer"
+        proc.Start()
     End Sub
 
     Public Sub OpenPath(path As String)
@@ -129,4 +147,5 @@
             OpenPath(dlg.CreatedSolutionPath)
         End If
     End Sub
+
 End Class

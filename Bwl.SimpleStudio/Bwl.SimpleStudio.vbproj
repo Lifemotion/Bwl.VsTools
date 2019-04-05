@@ -125,6 +125,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SolutionItem.vb" />
+    <Compile Include="ExplorerContextMenu.vb" />
     <Compile Include="GitManager.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

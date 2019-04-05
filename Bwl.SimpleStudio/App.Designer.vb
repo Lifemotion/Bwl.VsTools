@@ -26,16 +26,25 @@ Partial Class App
         Me.FilesTree1 = New Bwl.SimpleStudio.FilesTree()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.toolbar = New System.Windows.Forms.ToolStrip()
+        Me.tsbOpenSolution = New System.Windows.Forms.ToolStripButton()
+        Me.tsbSave = New System.Windows.Forms.ToolStripButton()
+        Me.tsbSaveAll = New System.Windows.Forms.ToolStripButton()
+        Me.tsbBuildAll = New System.Windows.Forms.ToolStripButton()
         Me.tscbConfiguration = New System.Windows.Forms.ToolStripComboBox()
         Me.tscbTargets = New System.Windows.Forms.ToolStripComboBox()
+        Me.tabRun = New System.Windows.Forms.ToolStripButton()
+        Me.tsbStop = New System.Windows.Forms.ToolStripButton()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.ErrorsList1 = New Bwl.SimpleStudio.ErrorsList()
         Me.FileEditor1 = New Bwl.SimpleStudio.FilesEditorCollection()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewSolutionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenSolutionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.SaveFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAllFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BuildRunToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BuildAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -43,15 +52,8 @@ Partial Class App
         Me.DebugToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.RunSelectedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StopToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NewSolutionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.tsbOpenSolution = New System.Windows.Forms.ToolStripButton()
-        Me.tsbSave = New System.Windows.Forms.ToolStripButton()
-        Me.tsbSaveAll = New System.Windows.Forms.ToolStripButton()
-        Me.tsbBuildAll = New System.Windows.Forms.ToolStripButton()
-        Me.tabRun = New System.Windows.Forms.ToolStripButton()
-        Me.tsbStop = New System.Windows.Forms.ToolStripButton()
+        Me.ServiceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddToExplorerContextMenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolbar.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -82,6 +84,38 @@ Partial Class App
         Me.toolbar.TabIndex = 3
         Me.toolbar.Text = "ToolStrip1"
         '
+        'tsbOpenSolution
+        '
+        Me.tsbOpenSolution.Image = CType(resources.GetObject("tsbOpenSolution.Image"), System.Drawing.Image)
+        Me.tsbOpenSolution.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbOpenSolution.Name = "tsbOpenSolution"
+        Me.tsbOpenSolution.Size = New System.Drawing.Size(103, 22)
+        Me.tsbOpenSolution.Text = "Open Solution"
+        '
+        'tsbSave
+        '
+        Me.tsbSave.Image = CType(resources.GetObject("tsbSave.Image"), System.Drawing.Image)
+        Me.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbSave.Name = "tsbSave"
+        Me.tsbSave.Size = New System.Drawing.Size(51, 22)
+        Me.tsbSave.Text = "Save"
+        '
+        'tsbSaveAll
+        '
+        Me.tsbSaveAll.Image = CType(resources.GetObject("tsbSaveAll.Image"), System.Drawing.Image)
+        Me.tsbSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbSaveAll.Name = "tsbSaveAll"
+        Me.tsbSaveAll.Size = New System.Drawing.Size(68, 22)
+        Me.tsbSaveAll.Text = "Save All"
+        '
+        'tsbBuildAll
+        '
+        Me.tsbBuildAll.Image = CType(resources.GetObject("tsbBuildAll.Image"), System.Drawing.Image)
+        Me.tsbBuildAll.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbBuildAll.Name = "tsbBuildAll"
+        Me.tsbBuildAll.Size = New System.Drawing.Size(71, 22)
+        Me.tsbBuildAll.Text = "Build All"
+        '
         'tscbConfiguration
         '
         Me.tscbConfiguration.Items.AddRange(New Object() {"Debug", "Release"})
@@ -94,6 +128,22 @@ Partial Class App
         Me.tscbTargets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.tscbTargets.Name = "tscbTargets"
         Me.tscbTargets.Size = New System.Drawing.Size(250, 25)
+        '
+        'tabRun
+        '
+        Me.tabRun.Image = CType(resources.GetObject("tabRun.Image"), System.Drawing.Image)
+        Me.tabRun.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tabRun.Name = "tabRun"
+        Me.tabRun.Size = New System.Drawing.Size(48, 22)
+        Me.tabRun.Text = "Run"
+        '
+        'tsbStop
+        '
+        Me.tsbStop.Image = CType(resources.GetObject("tsbStop.Image"), System.Drawing.Image)
+        Me.tsbStop.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbStop.Name = "tsbStop"
+        Me.tsbStop.Size = New System.Drawing.Size(51, 22)
+        Me.tsbStop.Text = "Stop"
         '
         'TableLayoutPanel1
         '
@@ -134,7 +184,7 @@ Partial Class App
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.BuildRunToolStripMenuItem, Me.DebugToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.BuildRunToolStripMenuItem, Me.DebugToolStripMenuItem, Me.ServiceToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(953, 24)
@@ -148,6 +198,14 @@ Partial Class App
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
         '
+        'NewSolutionToolStripMenuItem
+        '
+        Me.NewSolutionToolStripMenuItem.Name = "NewSolutionToolStripMenuItem"
+        Me.NewSolutionToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.NewSolutionToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
+        Me.NewSolutionToolStripMenuItem.Text = "New Solution..."
+        '
         'OpenSolutionToolStripMenuItem
         '
         Me.OpenSolutionToolStripMenuItem.Name = "OpenSolutionToolStripMenuItem"
@@ -155,6 +213,11 @@ Partial Class App
             Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
         Me.OpenSolutionToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
         Me.OpenSolutionToolStripMenuItem.Text = "Open Solution..."
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(231, 6)
         '
         'SaveFileToolStripMenuItem
         '
@@ -170,6 +233,11 @@ Partial Class App
             Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
         Me.SaveAllFilesToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
         Me.SaveAllFilesToolStripMenuItem.Text = "Save All Files"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(231, 6)
         '
         'ExitToolStripMenuItem
         '
@@ -221,71 +289,18 @@ Partial Class App
         Me.StopToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
         Me.StopToolStripMenuItem.Text = "Stop"
         '
-        'NewSolutionToolStripMenuItem
+        'ServiceToolStripMenuItem
         '
-        Me.NewSolutionToolStripMenuItem.Name = "NewSolutionToolStripMenuItem"
-        Me.NewSolutionToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewSolutionToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
-        Me.NewSolutionToolStripMenuItem.Text = "New Solution..."
+        Me.ServiceToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToExplorerContextMenuToolStripMenuItem})
+        Me.ServiceToolStripMenuItem.Name = "ServiceToolStripMenuItem"
+        Me.ServiceToolStripMenuItem.Size = New System.Drawing.Size(56, 20)
+        Me.ServiceToolStripMenuItem.Text = "Service"
         '
-        'ToolStripMenuItem1
+        'AddToExplorerContextMenuToolStripMenuItem
         '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(231, 6)
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(231, 6)
-        '
-        'tsbOpenSolution
-        '
-        Me.tsbOpenSolution.Image = CType(resources.GetObject("tsbOpenSolution.Image"), System.Drawing.Image)
-        Me.tsbOpenSolution.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbOpenSolution.Name = "tsbOpenSolution"
-        Me.tsbOpenSolution.Size = New System.Drawing.Size(103, 22)
-        Me.tsbOpenSolution.Text = "Open Solution"
-        '
-        'tsbSave
-        '
-        Me.tsbSave.Image = CType(resources.GetObject("tsbSave.Image"), System.Drawing.Image)
-        Me.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbSave.Name = "tsbSave"
-        Me.tsbSave.Size = New System.Drawing.Size(51, 22)
-        Me.tsbSave.Text = "Save"
-        '
-        'tsbSaveAll
-        '
-        Me.tsbSaveAll.Image = CType(resources.GetObject("tsbSaveAll.Image"), System.Drawing.Image)
-        Me.tsbSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbSaveAll.Name = "tsbSaveAll"
-        Me.tsbSaveAll.Size = New System.Drawing.Size(68, 22)
-        Me.tsbSaveAll.Text = "Save All"
-        '
-        'tsbBuildAll
-        '
-        Me.tsbBuildAll.Image = CType(resources.GetObject("tsbBuildAll.Image"), System.Drawing.Image)
-        Me.tsbBuildAll.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbBuildAll.Name = "tsbBuildAll"
-        Me.tsbBuildAll.Size = New System.Drawing.Size(71, 22)
-        Me.tsbBuildAll.Text = "Build All"
-        '
-        'tabRun
-        '
-        Me.tabRun.Image = CType(resources.GetObject("tabRun.Image"), System.Drawing.Image)
-        Me.tabRun.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tabRun.Name = "tabRun"
-        Me.tabRun.Size = New System.Drawing.Size(48, 22)
-        Me.tabRun.Text = "Run"
-        '
-        'tsbStop
-        '
-        Me.tsbStop.Image = CType(resources.GetObject("tsbStop.Image"), System.Drawing.Image)
-        Me.tsbStop.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbStop.Name = "tsbStop"
-        Me.tsbStop.Size = New System.Drawing.Size(51, 22)
-        Me.tsbStop.Text = "Stop"
+        Me.AddToExplorerContextMenuToolStripMenuItem.Name = "AddToExplorerContextMenuToolStripMenuItem"
+        Me.AddToExplorerContextMenuToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.AddToExplorerContextMenuToolStripMenuItem.Text = "Add to Explorer Context Menu"
         '
         'App
         '
@@ -340,4 +355,6 @@ Partial Class App
     Friend WithEvents NewSolutionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
     Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
+    Friend WithEvents ServiceToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AddToExplorerContextMenuToolStripMenuItem As ToolStripMenuItem
 End Class

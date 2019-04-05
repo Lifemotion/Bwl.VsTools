@@ -1,6 +1,4 @@
-﻿Imports Bwl.TextBoxEx
-
-Public Class FilesEditor
+﻿Public Class FilesEditor
     Private _item As SolutionItem
     Private _itemText As String
     Private _vbnetExtender As New VBNetExtender
@@ -18,7 +16,7 @@ Public Class FilesEditor
             Case ".xml", ".vbproj", ".sln"
                 _xmlExtender.ConnectTo(TextBoxEx1)
             Case ".c", ".cpp", ".h"
-                _cextender.ConnectTo(TextBoxEx1)
+                _cExtender.ConnectTo(TextBoxEx1)
         End Select
         AddHandler TextBoxEx1.TextChanged, Sub()
                                                _item.UnsavedContent = TextBoxEx1.Lines

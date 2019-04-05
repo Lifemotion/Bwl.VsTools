@@ -1,5 +1,4 @@
 ﻿Imports System.Drawing
-Imports Bwl.TextBoxEx
 
 Public Class VBNetExtender
 
