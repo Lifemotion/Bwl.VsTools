@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="Extenders\XmlExtender.vb" />
     <Compile Include="Extenders\VBNetExtender.vb" />
+    <Compile Include="TimerEx.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

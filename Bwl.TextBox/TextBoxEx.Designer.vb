@@ -28,6 +28,7 @@ Partial Class TextBoxEx
         Me.VScrollBar1 = New System.Windows.Forms.VScrollBar()
         Me.HScrollBar1 = New System.Windows.Forms.HScrollBar()
         Me.InputTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.ResizeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'CursorTimer
@@ -57,6 +58,10 @@ Partial Class TextBoxEx
         '
         Me.InputTimer.Interval = 1000
         '
+        'ResizeTimer
+        '
+        Me.ResizeTimer.Interval = 500
+        '
         'TextBoxEx
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -75,4 +80,5 @@ Partial Class TextBoxEx
     Friend WithEvents VScrollBar1 As Windows.Forms.VScrollBar
     Friend WithEvents HScrollBar1 As Windows.Forms.HScrollBar
     Friend WithEvents InputTimer As Windows.Forms.Timer
+    Friend WithEvents ResizeTimer As Windows.Forms.Timer
 End Class

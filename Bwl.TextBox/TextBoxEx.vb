@@ -104,12 +104,17 @@ Public Class TextBoxEx
             Throw New Exception("Not supported")
         End Set
     End Property
-
-    Private Sub TextBoxEx_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+    Private Sub ResizeTimer_Tick(sender As Object, e As EventArgs) Handles ResizeTimer.Tick
         If Width > 0 And Height > 0 Then
             PrepareGraphics()
             RedrawAll()
         End If
+        ResizeTimer.Stop()
+    End Sub
+
+    Private Sub TextBoxEx_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+        ResizeTimer.Stop()
+        ResizeTimer.Start()
     End Sub
 
     Private Shared Function CountStartringSpaces(str As String) As Integer
@@ -153,6 +158,7 @@ Public Class TextBoxEx
     End Sub
 
     Public Sub DeleteSelected()
+        SaveCurrentState()
         If _selectedStart.LineIndex = _selectedEnd.LineIndex Then
             If _selectedStart.ColumnIndex < _selectedEnd.ColumnIndex Then
                 _lines(_selectedStart.LineIndex).Text = _lines(_selectedStart.LineIndex).Text.Remove(_selectedStart.ColumnIndex, _selectedEnd.ColumnIndex - _selectedStart.ColumnIndex + 1)
@@ -165,12 +171,12 @@ Public Class TextBoxEx
             If _selectedStart.ColumnIndex > 0 Then result += _lines(_selectedStart.LineIndex).Text.Remove(_selectedStart.ColumnIndex)
             If _selectedEnd.ColumnIndex > 0 Then result += _lines(_selectedEnd.LineIndex).Text.Remove(0, _selectedEnd.ColumnIndex + 1)
             _lines(_selectedStart.LineIndex).Text = result
-            For i = _selectedStart.LineIndex To _selectedStart.LineIndex
+            For i = _selectedStart.LineIndex To _selectedEnd.LineIndex - 1
                 _lines.RemoveAt(_selectedStart.LineIndex + 1)
             Next
         End If
+        _currentPosition = _selectedStart
         _selectedEnd = _selectedStart
-        SaveCurrentState()
         RedrawAll()
         RaiseEvent TextChanged(Me)
     End Sub
@@ -181,6 +187,7 @@ Public Class TextBoxEx
     End Sub
 
     Private Sub PasteClipboard()
+        SaveCurrentState()
         Dim textToPaste = Clipboard.GetText
         If textToPaste = _previousCopiedWholeLine Then
             _lines.Insert(_currentPosition.LineIndex, New TextLine(textToPaste))
@@ -194,7 +201,6 @@ Public Class TextBoxEx
         End If
         _selectedEnd = _selectedStart
         RedrawAll()
-        SaveCurrentState()
         RaiseEvent TextChanged(Me)
     End Sub
 
@@ -249,7 +255,7 @@ Public Class TextBoxEx
                                     DrawLine(i)
                                 Next
                             End If
-                            DrawCursor(True)
+                            DrawCursor(True, False)
                             RaiseEvent TextChanged(Me)
                             _inputTimer.Stop() : _inputTimer.Start()
                         Else
@@ -268,7 +274,7 @@ Public Class TextBoxEx
                                     DrawLine(i)
                                 Next
                             End If
-                            DrawCursor(True)
+                            DrawCursor(True, False)
                             RaiseEvent TextChanged(Me)
                             _inputTimer.Stop() : _inputTimer.Start()
                         End If
@@ -278,8 +284,15 @@ Public Class TextBoxEx
                             DeleteSelected()
                         Else
                             If _currentPosition.ColumnIndex > 0 Then
-                                CurrentLine.Text = CurrentLine.Text.Remove(_currentPosition.ColumnIndex - 1, 1)
-                                _currentPosition.ColumnIndex -= 1
+                                Dim spaces = CountStartringSpaces(CurrentLine.Text)
+                                If spaces >= _currentPosition.ColumnIndex - 1 And ((_currentPosition.ColumnIndex) Mod TabSize = 0) Then
+                                    Dim spacesToRemove = Math.Min(TabSize, spaces)
+                                    CurrentLine.Text = CurrentLine.Text.Remove(0, spacesToRemove)
+                                    _currentPosition.ColumnIndex = Math.Max(0, _currentPosition.ColumnIndex - spacesToRemove)
+                                Else
+                                    CurrentLine.Text = CurrentLine.Text.Remove(_currentPosition.ColumnIndex - 1, 1)
+                                    _currentPosition.ColumnIndex -= 1
+                                End If
                                 ClearDrawCurrentLine()
                             Else
                                 If _currentPosition.LineIndex > 0 Then
@@ -295,10 +308,11 @@ Public Class TextBoxEx
                         _InputTimer.Stop() : _InputTimer.Start()
                         _lastEditedLine = _currentPosition.LineIndex
                     Case Else
+                        If _selectedStart <> _selectedEnd Then DeleteSelected()
                         CurrentLine.Text = CurrentLine.Text.Insert(_currentPosition.ColumnIndex, e.KeyChar.ToString)
                         _currentPosition.ColumnIndex += 1
                         ClearDrawCurrentLine()
-                        DrawCursor(True)
+                        DrawCursor(True, False)
                         RaiseEvent TextChanged(Me)
                         _inputTimer.Stop() : _inputTimer.Start()
                         _lastEditedLine = _currentPosition.LineIndex
@@ -351,6 +365,7 @@ Public Class TextBoxEx
         _graphics.FillRectangle(_backgoundBrush, 0, charRect.Top, Me.Width, charRect.Height)
     End Sub
 
+
     Private Sub DrawLine(linexIndex As Integer)
         Dim line = _lines(linexIndex)
         RaiseEvent BeforeDrawLine(Me, linexIndex, line)
@@ -376,17 +391,33 @@ Public Class TextBoxEx
             End If
             _graphics.DrawString(line.Text(j), _fontParams.Font, brush, charRect.Left - 1, charRect.Top)
         Next
+
+        For j = _scrollPosition.ColumnIndex To Math.Min(_scrollPosition.ColumnIndex + _columnsPerScreen, line.OverlayText.Length - 1)
+            Dim i = j '- _scrollPosition.ColumnIndex
+            Dim requestedColor = _colorScheme.OverlayColor
+            Dim charRect = TextPositionToScreen(New TextPosition(linexIndex, i))
+            If line.Attributes IsNot Nothing AndAlso i < line.Attributes.Length AndAlso line.Attributes(i) IsNot Nothing Then
+                requestedColor = line.Attributes(i).ForeColor
+            End If
+            If brushColor <> requestedColor Then
+                brushColor = requestedColor
+                brush = New SolidBrush(brushColor)
+            End If
+            _graphics.DrawString(line.OverlayText(j), _fontParams.Font, brush, charRect.Left - 1, charRect.Top)
+        Next
     End Sub
 
     Private Sub TextBoxEx_GotFocus(sender As Object, e As EventArgs) Handles Me.GotFocus
         _focused = True
+        DrawCursor(True, False)
     End Sub
 
     Private Sub TextBoxEx_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus
         _focused = False
+        DrawCursor(False, True)
     End Sub
 
-    Private Sub DrawCursor(forceDraw As Boolean)
+    Private Sub DrawCursor(forceDraw As Boolean, forceClean As Boolean)
         Static lastState As Boolean
         Static lastPosition As TextPosition
         Dim offset = 1
@@ -406,12 +437,18 @@ Public Class TextBoxEx
             Dim rect = TextPositionToScreen(lastPosition)
             _graphics.DrawLine(_cursorPen, rect.Left + offset, rect.Top, rect.Left + offset, rect.Bottom)
         End If
+        If forceClean And lastState = True Then
+            lastState = False
+            ' lastPosition = _currentPosition
+            Dim rect = TextPositionToScreen(lastPosition)
+            _graphics.DrawLine(_backgoundPen, rect.Left + offset, rect.Top, rect.Left + offset, rect.Bottom)
+        End If
         ShowGraphics()
 
     End Sub
 
     Private Sub CursorTimer_Tick(sender As Object, e As EventArgs) Handles CursorTimer.Tick
-        DrawCursor(False)
+        If Not DesignMode And _focused Then DrawCursor(False, False)
     End Sub
 
     Private Sub TextBoxEx_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles Me.PreviewKeyDown
@@ -440,9 +477,9 @@ Public Class TextBoxEx
                                 RedrawAll()
                             End If
                         End If
+                        _InputTimer.Stop() : _InputTimer.Start()
                     End If
                     RaiseEvent TextChanged(Me)
-                    _InputTimer.Stop() : _InputTimer.Start()
             End Select
         End If
 
@@ -510,7 +547,7 @@ Public Class TextBoxEx
                 RedrawAll()
             End If
 
-            DrawCursor(True)
+            DrawCursor(True, False)
         End If
         CheckLineWasEdited()
     End Sub
@@ -602,6 +639,7 @@ Public Class TextBoxEx
         pos.LineIndex = Math.Floor(y / _fontParams.LineHeight + _scrollPosition.LineIndex)
         pos.ColumnIndex = Math.Floor(x / _fontParams.CharSpaceWidth + _scrollPosition.ColumnIndex)
         If pos.LineIndex > _lines.Count - 1 Then pos.LineIndex = _lines.Count - 1
+        If pos.LineIndex < 0 Then pos.LineIndex = 0
         Return pos
     End Function
 
@@ -667,6 +705,8 @@ Public Class TextBoxEx
         _InputTimer.Stop()
         SaveCurrentState()
     End Sub
+
+
 End Class
 
 Public Structure TextPosition
@@ -716,6 +756,10 @@ Public Structure TextPosition
         v1 = v2
         v2 = tmp
     End Sub
+
+    Public Overrides Function ToString() As String
+        Return "Line: " + LineIndex.ToString + ", Column: " + ColumnIndex.ToString
+    End Function
 End Structure
 
 Public Class TextLine
@@ -733,9 +777,19 @@ Public Class TextLine
         End Set
     End Property
 
+    Public Property OverlayText As String = ""
+
     Public Sub SetAttributes(attrbArray As TextAttribute())
         _Attributes = attrbArray
         _AttributesValid = True
+    End Sub
+
+    Public Sub SetAttributeToAll(attrb As TextAttribute)
+        Dim attribs(Text.Length - 1) As TextAttribute
+        For i = 0 To attribs.Length - 1
+            attribs(i) = attrb
+        Next
+        SetAttributes(attribs)
     End Sub
 
     Public Sub New()
@@ -760,4 +814,5 @@ Public Class ColorScheme
     Public Property BackColor As Color = Color.White
     Public Property TextColor As Color = Color.Black
     Public Property SelectedBackColor As Color = Color.LightBlue
+    Public Property OverlayColor As Color = Color.Gray
 End Class
