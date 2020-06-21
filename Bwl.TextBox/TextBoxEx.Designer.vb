@@ -60,7 +60,7 @@ Partial Class TextBoxEx
         '
         'ResizeTimer
         '
-        Me.ResizeTimer.Interval = 500
+        Me.ResizeTimer.Interval = 200
         '
         'TextBoxEx
         '

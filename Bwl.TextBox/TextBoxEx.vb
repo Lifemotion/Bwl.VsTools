@@ -84,6 +84,7 @@ Public Class TextBoxEx
         _linesPerScreen = Math.Floor(Me.Height / _fontParams.LineHeight)
         _columnsPerScreen = Math.Floor(Me.Width / _fontParams.CharSpaceWidth)
         BackgroundImage = _graphicsBmp
+        BackgroundImageLayout = ImageLayout.None
     End Sub
 
     Private Sub ShowGraphics()
@@ -365,6 +366,11 @@ Public Class TextBoxEx
         _graphics.FillRectangle(_backgoundBrush, 0, charRect.Top, Me.Width, charRect.Height)
     End Sub
 
+    Public ReadOnly Property TextBoxBitmap As Bitmap
+        Get
+            Return _graphicsBmp
+        End Get
+    End Property
 
     Private Sub DrawLine(linexIndex As Integer)
         Dim line = _lines(linexIndex)
