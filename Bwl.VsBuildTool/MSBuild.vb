@@ -1,6 +1,8 @@
 ﻿Public Class MSBuild
     Private Shared toolPaths As String() = {
-    "C:\Program Files (x86)\MSBuild\15.0\Bin\MSBuild.EXE",
+      "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe",
+      "C:\Program Files\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe",
+      "C:\Program Files (x86)\MSBuild\15.0\Bin\MSBuild.EXE",
       "C:\Program Files\MSBuild\15.0\Bin\MSBuild.EXE",
       "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.EXE",
       "C:\Program Files\MSBuild\14.0\Bin\MSBuild.EXE",
@@ -18,10 +20,11 @@
     End Sub
 
     Public Shared Sub Rescan()
-        _MsbuildPath = ""
+        _MSBuildPath = ""
         For Each toolPath In toolPaths
             If IO.File.Exists(toolPath) Then
                 _MSBuildPath = toolPath
+                Console.WriteLine(_MSBuildPath)
                 Return
             End If
         Next
